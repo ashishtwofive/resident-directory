@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Resident Directory – Society Vendor Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:#F5F2EC; --card:#FFFDF8; --ink:#1A1208; --ink2:#5C5040; --ink3:#9C8E7A;
+    --green:#2A5C3F; --mint:#D6EDE1; --gold:#C8922A; --gold-light:#FBF0D9;
+    --border:#E2D9CC; --shadow:0 2px 16px rgba(26,18,8,0.09); --r:16px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+
+  nav{background:var(--green);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.18);}
+  .nav-logo{font-family:'Fraunces',serif;font-size:19px;font-weight:900;color:#fff;display:flex;align-items:center;gap:8px;}
+  .btn-add-nav{background:var(--gold);color:#fff;border:none;border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .btn-add-nav:hover{opacity:.88;}
+
+  .hero{background:var(--green);padding:44px 20px 56px;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");}
+  .hero-pill{display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#A8D5BC;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:30px;margin-bottom:16px;}
+  .hero h1{font-family:'Fraunces',serif;font-size:clamp(30px,6vw,54px);font-weight:900;color:#fff;line-height:1.08;margin-bottom:12px;}
+  .hero h1 em{font-style:italic;color:#A8D5BC;}
+  .hero p{color:#C0D9CC;font-size:16px;max-width:440px;margin:0 auto 26px;line-height:1.6;}
+  .hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .btn-hp{background:var(--gold);color:#fff;border:none;border-radius:12px;padding:13px 24px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 18px rgba(200,146,42,0.4);transition:transform .15s;}
+  .btn-hp:hover{transform:translateY(-2px);}
+  .btn-hs{background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:12px;padding:13px 24px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .btn-hs:hover{background:rgba(255,255,255,.18);}
+
+  .stats-bar{background:var(--card);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;justify-content:center;gap:36px;flex-wrap:wrap;}
+  .stat{text-align:center;}
+  .stat-num{font-family:'Fraunces',serif;font-size:26px;font-weight:900;color:var(--green);}
+  .stat-lbl{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-top:1px;}
+
+  .main{max-width:1140px;margin:0 auto;padding:26px 18px 64px;}
+  .filter-bar{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+  .sbox{flex:1;min-width:200px;display:flex;align-items:center;background:var(--card);border:2px solid var(--border);border-radius:12px;padding:0 14px;gap:9px;box-shadow:var(--shadow);transition:border-color .2s;}
+  .sbox:focus-within{border-color:var(--green);}
+  .sbox input{flex:1;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--ink);background:transparent;padding:12px 0;}
+  .si{font-size:15px;opacity:.4;}
+  .rcount{font-size:13px;font-weight:600;color:var(--ink3);white-space:nowrap;}
+
+  .cats{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px;}
+  .cat{padding:7px 14px;border-radius:30px;border:2px solid var(--border);background:var(--card);color:var(--ink2);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap;}
+  .cat:hover{border-color:var(--green);color:var(--green);}
+  .cat.on{background:var(--green);color:#fff;border-color:var(--green);}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:15px;}
+  .vcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:17px 17px 13px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden;}
+  .vcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),var(--gold));opacity:0;transition:opacity .2s;}
+  .vcard:hover{transform:translateY(-3px);box-shadow:0 8px 26px rgba(26,18,8,0.12);}
+  .vcard:hover::before{opacity:1;}
+  .ctop{display:flex;align-items:flex-start;gap:12px;}
+  .cav{width:44px;height:44px;min-width:44px;border-radius:12px;background:var(--mint);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:19px;font-weight:900;color:var(--green);}
+  .cname{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;line-height:1.3;}
+  .ccat{display:inline-block;background:var(--gold-light);color:var(--gold);border-radius:5px;font-size:11px;font-weight:700;padding:2px 8px;}
+  .cremark{font-size:12px;color:var(--ink3);margin-top:2px;}
+  .cphone{font-size:14px;font-weight:700;color:var(--green);letter-spacing:.3px;}
+  .cacts{display:flex;gap:7px;}
+  .bcall{flex:1;background:var(--green);color:#fff;border:none;border-radius:9px;padding:10px 8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:4px;transition:opacity .2s;}
+  .bcall:hover{opacity:.85;}
+  .bcopy{background:var(--bg);color:var(--ink2);border:1.5px solid var(--border);border-radius:9px;padding:10px 12px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s;}
+  .bcopy:hover{border-color:var(--green);color:var(--green);}
+  .bdet{background:transparent;color:var(--green);border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;padding:10px 3px;text-decoration:underline;text-underline-offset:3px;white-space:nowrap;}
+  .sn{position:absolute;top:11px;right:13px;font-size:11px;color:var(--ink3);font-weight:700;}
+  .rrow{display:flex;align-items:center;gap:5px;}
+  .rtxt{font-size:12px;font-weight:600;color:var(--ink2);}
+  .sf{color:#F59E0B;} .se{color:#D1D5DB;}
+
+  .empty{grid-column:1/-1;text-align:center;padding:60px 0;color:var(--ink3);}
+  .empty-ico{font-size:42px;margin-bottom:10px;}
+  .empty h3{font-family:'Fraunces',serif;font-size:19px;color:var(--ink2);margin-bottom:4px;}
+
+  .ov{display:none;position:fixed;inset:0;background:rgba(26,18,8,.55);z-index:200;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px);}
+  .ov.open{display:flex;}
+  .modal{background:var(--card);border-radius:20px;width:100%;max-width:510px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.25);animation:su .25s ease;}
+  @keyframes su{from{transform:translateY(26px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .mhd{padding:20px 22px 0;display:flex;align-items:center;justify-content:space-between;}
+  .mtitle{font-family:'Fraunces',serif;font-size:20px;font-weight:900;color:var(--ink);}
+  .mclose{background:var(--bg);border:none;border-radius:9px;width:32px;height:32px;font-size:17px;cursor:pointer;color:var(--ink2);display:flex;align-items:center;justify-content:center;}
+  .mclose:hover{background:var(--border);}
+  .mbody{padding:16px 22px 22px;display:flex;flex-direction:column;gap:13px;}
+
+  .dhero{display:flex;gap:13px;align-items:flex-start;padding-bottom:13px;border-bottom:1px solid var(--border);}
+  .dav{width:56px;height:56px;min-width:56px;border-radius:15px;background:var(--mint);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:25px;font-weight:900;color:var(--green);}
+  .dname{font-family:'Fraunces',serif;font-size:20px;font-weight:900;color:var(--ink);margin-bottom:3px;}
+  .dphone{font-size:17px;font-weight:700;color:var(--green);margin:5px 0;}
+  .drow{display:flex;gap:9px;}
+  .bcalll{flex:2;background:var(--green);color:#fff;border:none;border-radius:12px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .bcalll:hover{opacity:.85;}
+  .bcopyl{flex:1;background:var(--bg);color:var(--ink2);border:2px solid var(--border);border-radius:12px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .bcopyl:hover{border-color:var(--green);color:var(--green);}
+  .rlbl{font-size:11px;font-weight:700;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;}
+  .ritem{background:var(--bg);border-radius:11px;padding:10px 12px;}
+  .rcmt{font-size:13px;color:var(--ink2);margin-top:3px;line-height:1.5;}
+  .arb{background:var(--mint);border-radius:13px;padding:13px;display:flex;flex-direction:column;gap:9px;}
+  .artitle{font-size:13px;font-weight:700;color:var(--green);}
+  .spk{display:flex;gap:5px;}
+  .sp{font-size:25px;cursor:pointer;transition:transform .1s;color:#D1D5DB;}
+  .sp.on{color:#F59E0B;}
+  .sp:hover{transform:scale(1.2);}
+
+  .fg{display:flex;flex-direction:column;gap:5px;}
+  .fl{font-size:12px;font-weight:700;color:var(--ink2);letter-spacing:.3px;text-transform:uppercase;}
+  .fi,.fs,.ft{width:100%;padding:11px 13px;border:2px solid var(--border);border-radius:11px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--ink);background:#fff;outline:none;transition:border-color .2s;}
+  .fi:focus,.fs:focus,.ft:focus{border-color:var(--green);}
+  .ft{resize:none;}
+  .fr{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+  .bsub{width:100%;padding:13px;background:var(--green);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  .bsub:hover{opacity:.88;}
+
+  #toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--green);color:#fff;padding:11px 22px;border-radius:40px;font-size:14px;font-weight:600;z-index:999;pointer-events:none;opacity:0;transition:all .28s ease;white-space:nowrap;box-shadow:0 4px 18px rgba(0,0,0,.2);font-family:'DM Sans',sans-serif;}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .how{background:var(--green);padding:50px 20px;text-align:center;margin-top:52px;}
+  .how h2{font-family:'Fraunces',serif;font-size:30px;font-weight:900;color:#fff;margin-bottom:8px;}
+  .how p{color:#A8D5BC;font-size:15px;margin-bottom:32px;}
+  .sgrid{max-width:760px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:18px;}
+  .sc{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:15px;padding:22px 16px;}
+  .snum{font-family:'Fraunces',serif;font-size:34px;font-weight:900;color:var(--gold);margin-bottom:7px;}
+  .sc h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:5px;}
+  .sc p{font-size:12px;color:#A8D5BC;line-height:1.5;}
+  footer{background:var(--ink);color:var(--ink3);text-align:center;padding:18px;font-size:13px;}
+  footer strong{color:#fff;}
+
+  @media(max-width:580px){.fr{grid-template-columns:1fr;}.hero h1{font-size:28px;}.stats-bar{gap:18px;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">🏘️ Resident Directory</div>
+  <button class="btn-add-nav" id="addNavBtn">+ Add Vendor</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-pill">🏡 Society Vendor Network</div>
+  <h1>All Society Vendors<br/><em>One Place, Free</em></h1>
+  <p>37 trusted vendors — from plumbers to yoga teachers — recommended by your own neighbours. Search and call instantly.</p>
+  <div class="hero-btns">
+    <button class="btn-hp" onclick="document.getElementById('vs').scrollIntoView({behavior:'smooth'})">Browse All 37 Vendors</button>
+    <button class="btn-hs" id="addHeroBtn">+ Add a Vendor</button>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num" id="sV">37</div><div class="stat-lbl">Vendors</div></div>
+  <div class="stat"><div class="stat-num" id="sC">0</div><div class="stat-lbl">Categories</div></div>
+  <div class="stat"><div class="stat-num" id="sR">0</div><div class="stat-lbl">Reviews</div></div>
+  <div class="stat"><div class="stat-num">Free</div><div class="stat-lbl">Always</div></div>
+</div>
+
+<div class="main" id="vs">
+  <div class="filter-bar">
+    <div class="sbox"><span class="si">🔍</span><input type="text" id="si" placeholder="Search name, service…" oninput="render()"/></div>
+    <div class="rcount" id="rc"></div>
+  </div>
+  <div class="cats" id="cats"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<section class="how">
+  <h2>Simple & Free</h2>
+  <p>No app. No login. Just open and call.</p>
+  <div class="sgrid">
+    <div class="sc"><div class="snum">01</div><h3>Search or Browse</h3><p>Find vendors by name or filter by category.</p></div>
+    <div class="sc"><div class="snum">02</div><h3>One-Tap Call</h3><p>Dial directly or copy number instantly.</p></div>
+    <div class="sc"><div class="snum">03</div><h3>Leave a Review</h3><p>Rate 1–5 and help neighbours choose well.</p></div>
+    <div class="sc"><div class="snum">04</div><h3>Add a Vendor</h3><p>Know someone good? Add them for everyone.</p></div>
+  </div>
+</section>
+<footer><strong>Resident Directory</strong> · Society Vendor Network · Free to use</footer>
+
+<div id="toast"></div>
+
+<!-- ADD MODAL -->
+<div class="ov" id="addModal">
+  <div class="modal">
+    <div class="mhd"><div class="mtitle">Add a Vendor</div><button class="mclose" id="addClose">✕</button></div>
+    <div class="mbody">
+      <div class="fr">
+        <div class="fg"><label class="fl">Name *</label><input class="fi" id="vN" placeholder="Vendor name"/></div>
+        <div class="fg"><label class="fl">Phone *</label><input class="fi" id="vP" placeholder="10-digit number" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
+      </div>
+      <div class="fg"><label class="fl">Type of Service *</label><input class="fi" id="vC" placeholder="e.g. Plumber, Cook, AC Repair…"/></div>
+      <div class="fg"><label class="fl">Remark / Description</label><textarea class="ft" id="vD" rows="2" placeholder="Any extra details…"></textarea></div>
+      <div class="fg"><label class="fl">Your Rating</label><div class="spk" id="asp"></div></div>
+      <button class="bsub" id="addSubmit">Add Vendor</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="ov" id="detModal">
+  <div class="modal">
+    <div class="mhd"><div class="mtitle">Vendor Details</div><button class="mclose" id="detClose">✕</button></div>
+    <div class="mbody" id="db"></div>
+  </div>
+</div>
+
+<script>
+/* ── DATA ── */
+let V = [
+  {id:1, sn:1,  name:"Sahil Aircool",        phone:"9643381184", cat:"AC Service",              rem:"",                                       rev:[]},
+  {id:2, sn:2,  name:"Akash",                phone:"8287786736", cat:"AC Service",              rem:"",                                       rev:[]},
+  {id:3, sn:3,  name:"Sonu",                 phone:"9810166154", cat:"AC Service",              rem:"",                                       rev:[]},
+  {id:4, sn:4,  name:"Roop Narayan",         phone:"7838576392", cat:"Carpenter",               rem:"",                                       rev:[]},
+  {id:5, sn:5,  name:"Prahlad",              phone:"9560514982", cat:"Carpenter",               rem:"",                                       rev:[]},
+  {id:6, sn:6,  name:"Haleema",              phone:"7699641959", cat:"Cleaning Maid",           rem:"",                                       rev:[]},
+  {id:7, sn:7,  name:"Avnish",               phone:"9810848526", cat:"Dermatologist",           rem:"",                                       rev:[]},
+  {id:8, sn:8,  name:"Fateh Singh",          phone:"9958500154", cat:"Dry Cleaning / Iron",     rem:"",                                       rev:[]},
+  {id:9, sn:9,  name:"Pramod",               phone:"7479767308", cat:"Electrician",             rem:"",                                       rev:[]},
+  {id:10,sn:10, name:"Hamza",                phone:"9305492179", cat:"Electrician",             rem:"",                                       rev:[]},
+  {id:11,sn:11, name:"Meenbahadur",          phone:"8700951431", cat:"Electrician",             rem:"",                                       rev:[]},
+  {id:12,sn:12, name:"Ishwin Preet Kaur",    phone:"9818600511", cat:"ENT Specialist",          rem:"",                                       rev:[]},
+  {id:13,sn:13, name:"Ravi Tile/Marble",     phone:"8107799332", cat:"Flooring Work",           rem:"",                                       rev:[]},
+  {id:14,sn:14, name:"IndianOil",            phone:"7588888824", cat:"Gas Booking",             rem:"",                                       rev:[]},
+  {id:15,sn:15, name:"Indane",               phone:"9711003559", cat:"Gas Booking",             rem:"",                                       rev:[]},
+  {id:16,sn:16, name:"Jaswinder Anand",      phone:"9810616736", cat:"General Physician",       rem:"",                                       rev:[]},
+  {id:17,sn:17, name:"Monika H Block",       phone:"9872419248", cat:"Homemade Lemon Pickle",   rem:"",                                       rev:[]},
+  {id:18,sn:18, name:"Priyanka",             phone:"9873790747", cat:"Interior Designer",       rem:"",                                       rev:[]},
+  {id:19,sn:19, name:"Durgesh Chaudhary",    phone:"9756627620", cat:"JIO",                     rem:"",                                       rev:[]},
+  {id:20,sn:20, name:"Anita",                phone:"9217749234", cat:"Maid",                    rem:"",                                       rev:[]},
+  {id:21,sn:21, name:"Md UC",                phone:"8800605435", cat:"Painter",                 rem:"",                                       rev:[]},
+  {id:22,sn:22, name:"Haryana Pest Control", phone:"9650970050", cat:"Pest Control",            rem:"",                                       rev:[]},
+  {id:23,sn:23, name:"Ajeet",                phone:"6391232918", cat:"Plumber",                 rem:"",                                       rev:[]},
+  {id:24,sn:24, name:"Deepak",               phone:"6371273004", cat:"Plumber",                 rem:"",                                       rev:[]},
+  {id:25,sn:25, name:"Arun",                 phone:"7905959783", cat:"Plumber",                 rem:"",                                       rev:[]},
+  {id:26,sn:26, name:"Mubarak",              phone:"8708451488", cat:"Plumber",                 rem:"",                                       rev:[]},
+  {id:27,sn:27, name:"Kamla Di",             phone:"7290862096", cat:"Postpartum Massage",      rem:"",                                       rev:[]},
+  {id:28,sn:28, name:"Bittu Satija",         phone:"9958530430", cat:"Sofa Repair",             rem:"",                                       rev:[]},
+  {id:29,sn:29, name:"Meenakshi C Block",    phone:"9911674944", cat:"Stationery / Print Outs", rem:"",                                       rev:[]},
+  {id:30,sn:30, name:"Pawan",                phone:"9540660037", cat:"Tank Cleaner",            rem:"",                                       rev:[]},
+  {id:31,sn:31, name:"Ashok Sharma",         phone:"9871197773", cat:"Tyre Puncture",           rem:"",                                       rev:[]},
+  {id:32,sn:32, name:"Yaseen",               phone:"7827423361", cat:"Welding Service",         rem:"",                                       rev:[]},
+  {id:33,sn:33, name:"Naseem Ahmad",         phone:"8920984503", cat:"Welding Service",         rem:"",                                       rev:[]},
+  {id:34,sn:34, name:"Relief Gymnastics",    phone:"9797996072", cat:"Gymnastics",              rem:"For kids & adults",                      rev:[]},
+  {id:35,sn:35, name:"Bhwani",               phone:"9958553181", cat:"Yoga Teacher",            rem:"",                                       rev:[]},
+  {id:36,sn:36, name:"Richa G3113",          phone:"9870114401", cat:"Dance Classes",           rem:"All age groups",                         rev:[]},
+  {id:37,sn:37, name:"Nihira Jewels",        phone:"9582407181", cat:"Jewellery",               rem:"Artificial fashion jewellery",           rev:[]},
+];
+
+/* persist reviews + added vendors */
+(function(){try{const s=localStorage.getItem('rdV');if(s)V=JSON.parse(s);}catch(e){}})();
+function save(){try{localStorage.setItem('rdV',JSON.stringify(V));}catch(e){}}
+
+let ACT='All', AR=5, RR=5;
+
+function cats(){return['All',...new Set(V.map(v=>v.cat)).values()].sort((a,b)=>a==='All'?-1:a.localeCompare(b));}
+function avg(r){return r.length?(r.reduce((s,x)=>s+x.r,0)/r.length).toFixed(1):0;}
+function stars(r,sz=12){return[1,2,3,4,5].map(i=>`<span class="${i<=Math.round(r)?'sf':'se'}" style="font-size:${sz}px">★</span>`).join('');}
+
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2500);}
+function oM(id){document.getElementById(id).classList.add('open');}
+function cM(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.ov').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)cM(el.id);}));
+document.getElementById('addClose').onclick=()=>cM('addModal');
+document.getElementById('detClose').onclick=()=>cM('detModal');
+
+function buildCats(){
+  document.getElementById('cats').innerHTML=cats().map(c=>
+    `<button class="cat${c===ACT?' on':''}" data-c="${c}">${c==='All'?'All Services':c}</button>`
+  ).join('');
+  document.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{ACT=b.dataset.c;buildCats();render();});
+}
+
+function render(){
+  const q=document.getElementById('si').value.toLowerCase();
+  const f=V.filter(v=>(ACT==='All'||v.cat===ACT)&&(!q||v.name.toLowerCase().includes(q)||v.cat.toLowerCase().includes(q)||(v.rem||'').toLowerCase().includes(q)));
+  document.getElementById('rc').textContent=f.length<V.length?`${f.length} of ${V.length} vendors`:`${V.length} vendors`;
+  const g=document.getElementById('grid');
+  if(!f.length){g.innerHTML=`<div class="empty"><div class="empty-ico">🔍</div><h3>No vendors found</h3><p>Try a different search or category</p></div>`;return;}
+  g.innerHTML=f.map(v=>{
+    const a=avg(v.rev);
+    return`<div class="vcard">
+      <div class="sn">#${v.sn}</div>
+      <div class="ctop">
+        <div class="cav">${v.name[0].toUpperCase()}</div>
+        <div style="flex:1">
+          <div class="cname">${v.name}</div>
+          <span class="ccat">${v.cat}</span>
+          ${v.rem?`<div class="cremark">${v.rem}</div>`:''}
+        </div>
+      </div>
+      <div class="cphone">📱 ${v.phone}</div>
+      ${v.rev.length?`<div class="rrow"><div style="display:flex">${stars(a)}</div><span class="rtxt">${a} · ${v.rev.length} review${v.rev.length!==1?'s':''}</span></div>`:''}
+      <div class="cacts">
+        <button class="bcall" onclick="doCall('${v.phone}','${esc(v.name)}')">📞 Call</button>
+        <button class="bcopy" onclick="doCopy('${v.phone}')">📋 Copy</button>
+        <button class="bdet" onclick="openDet(${v.id})">Reviews →</button>
+      </div>
+    </div>`;
+  }).join('');
+  stats();
+}
+
+function esc(s){return s.replace(/'/g,"\\'");}
+function doCall(p,n){window.location.href='tel:+91'+p;toast('Calling '+n+'…');}
+function doCopy(p){
+  const t='+91'+p;
+  if(navigator.clipboard)navigator.clipboard.writeText(t).catch(()=>fb(t));else fb(t);
+  toast(p+' copied! 📋');
+}
+function fb(t){const e=document.createElement('textarea');e.value=t;document.body.appendChild(e);e.select();document.execCommand('copy');document.body.removeChild(e);}
+
+function openDet(id){
+  const v=V.find(x=>x.id===id);
+  RR=5;
+  const a=avg(v.rev);
+  document.getElementById('db').innerHTML=`
+    <div class="dhero">
+      <div class="dav">${v.name[0].toUpperCase()}</div>
+      <div style="flex:1">
+        <div class="dname">${v.name}</div>
+        <span class="ccat">${v.cat}</span>
+        ${v.rem?`<div style="font-size:12px;color:var(--ink3);font-style:italic;margin-top:3px">${v.rem}</div>`:''}
+        <div class="dphone">📱 ${v.phone}</div>
+        ${v.rev.length?`<div class="rrow" style="margin-top:3px"><div style="display:flex">${stars(a,14)}</div><span class="rtxt">${a} · ${v.rev.length} review${v.rev.length!==1?'s':''}</span></div>`
+          :'<div style="font-size:12px;color:var(--ink3);margin-top:4px">No reviews yet — be first!</div>'}
+      </div>
+    </div>
+    <div class="drow">
+      <button class="bcalll" onclick="doCall('${v.phone}','${esc(v.name)}')">📞 Call ${v.phone}</button>
+      <button class="bcopyl" onclick="doCopy('${v.phone}')">📋 Copy</button>
+    </div>
+    ${v.rev.length?`<div><div class="rlbl">Reviews (${v.rev.length})</div><div style="display:flex;flex-direction:column;gap:7px;margin-top:8px">${v.rev.map(r=>`<div class="ritem"><div style="display:flex">${stars(r.r,13)}</div><div class="rcmt">${r.c}</div></div>`).join('')}</div></div>`:''}
+    <div class="arb">
+      <div class="artitle">⭐ Leave a Review</div>
+      <div class="spk" id="rsp">${[1,2,3,4,5].map(i=>`<span class="sp${i<=RR?' on':''}" data-v="${i}">★</span>`).join('')}</div>
+      <input class="fi" id="rc2" placeholder="Comment (optional)…" style="background:#fff"/>
+      <button class="bsub" style="padding:11px" onclick="subRev(${v.id})">Submit Review</button>
+    </div>
+  `;
+  oM('detModal');
+  document.querySelectorAll('#rsp .sp').forEach(s=>s.onclick=function(){
+    RR=+this.dataset.v;
+    document.querySelectorAll('#rsp .sp').forEach((x,i)=>x.classList.toggle('on',i<RR));
+  });
+}
+
+function subRev(id){
+  const c=(document.getElementById('rc2').value.trim())||'No comment';
+  V.find(x=>x.id===id).rev.push({r:RR,c});
+  save();openDet(id);render();toast('Review submitted ⭐');
+}
+
+/* Add vendor */
+function buildAS(){
+  AR=5;
+  document.getElementById('asp').innerHTML=[1,2,3,4,5].map(i=>`<span class="sp${i<=5?' on':''}" data-v="${i}" onclick="setAR(${i})">★</span>`).join('');
+}
+function setAR(r){AR=r;document.querySelectorAll('#asp .sp').forEach((s,i)=>s.classList.toggle('on',i<r));}
+
+document.getElementById('addNavBtn').onclick=()=>{buildAS();oM('addModal');};
+document.getElementById('addHeroBtn').onclick=()=>{buildAS();oM('addModal');};
+document.getElementById('addSubmit').onclick=function(){
+  const n=document.getElementById('vN').value.trim();
+  const p=document.getElementById('vP').value.trim();
+  const c=document.getElementById('vC').value.trim();
+  const d=document.getElementById('vD').value.trim();
+  if(!n||p.length<10){toast('Enter name and valid 10-digit phone');return;}
+  if(!c){toast('Enter the type of service');return;}
+  const maxSn=Math.max(...V.map(v=>v.sn));
+  V.push({id:Date.now(),sn:maxSn+1,name:n,phone:p,cat:c,rem:d,rev:AR?[{r:AR,c:'Initial rating'}]:[]});
+  save();buildCats();render();cM('addModal');
+  document.getElementById('vN').value='';document.getElementById('vP').value='';
+  document.getElementById('vC').value='';document.getElementById('vD').value='';
+  toast('Vendor added! 🎉');
+};
+
+function stats(){
+  document.getElementById('sV').textContent=V.length;
+  document.getElementById('sC').textContent=new Set(V.map(v=>v.cat)).size;
+  document.getElementById('sR').textContent=V.reduce((s,v)=>s+v.rev.length,0);
+}
+
+buildCats();render();
+</script>
+</body>
+</html>
