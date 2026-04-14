@@ -213,12 +213,7 @@ nav{
 }
 .bsub:hover{opacity:.88;}
 .bsub:disabled{opacity:.5;cursor:not-allowed;}
-.btn-del{
-  width:100%;padding:11px;background:transparent;border:1.5px solid var(--red);
-  color:var(--red);border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;
-  font-family:'DM Sans',sans-serif;transition:background .15s;
-}
-.btn-del:hover{background:#FEF2F2;}
+
 .spin-sm{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
 
 /* ── TOAST ── */
@@ -257,7 +252,6 @@ footer strong{color:#fff;}
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">🏘️ Resident Directory</div>
   <div class="nav-right">
@@ -268,7 +262,6 @@ footer strong{color:#fff;}
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-pill">🏡 Society Vendor Network</div>
   <h1>All Society Vendors<br/><em>One Place, Free</em></h1>
@@ -279,14 +272,12 @@ footer strong{color:#fff;}
   </div>
 </section>
 
-<!-- STATS -->
 <div class="stats-bar">
   <div class="stat"><div class="stat-num" id="sV">—</div><div class="stat-lbl">Vendors</div></div>
   <div class="stat"><div class="stat-num" id="sC">—</div><div class="stat-lbl">Categories</div></div>
   <div class="stat"><div class="stat-num">Free</div><div class="stat-lbl">Always</div></div>
 </div>
 
-<!-- MAIN -->
 <div class="main" id="vs">
   <div class="filter-bar">
     <div class="sbox">
@@ -297,18 +288,13 @@ footer strong{color:#fff;}
   </div>
   <div class="cats" id="cats"></div>
 
-  <!-- skeleton shown while loading -->
   <div class="grid" id="grid">
-    <div class="skel"><div class="sk" style="width:40%;height:13px"></div><div class="sk" style="width:65%;height:18px"></div><div class="sk" style="width:55%;height:12px"></div><div class="sk" style="width:100%;height:36px;margin-top:20px;border-radius:9px"></div></div>
-    <div class="skel"><div class="sk" style="width:40%;height:13px"></div><div class="sk" style="width:65%;height:18px"></div><div class="sk" style="width:55%;height:12px"></div><div class="sk" style="width:100%;height:36px;margin-top:20px;border-radius:9px"></div></div>
-    <div class="skel"><div class="sk" style="width:40%;height:13px"></div><div class="sk" style="width:65%;height:18px"></div><div class="sk" style="width:55%;height:12px"></div><div class="sk" style="width:100%;height:36px;margin-top:20px;border-radius:9px"></div></div>
     <div class="skel"><div class="sk" style="width:40%;height:13px"></div><div class="sk" style="width:65%;height:18px"></div><div class="sk" style="width:55%;height:12px"></div><div class="sk" style="width:100%;height:36px;margin-top:20px;border-radius:9px"></div></div>
     <div class="skel"><div class="sk" style="width:40%;height:13px"></div><div class="sk" style="width:65%;height:18px"></div><div class="sk" style="width:55%;height:12px"></div><div class="sk" style="width:100%;height:36px;margin-top:20px;border-radius:9px"></div></div>
     <div class="skel"><div class="sk" style="width:40%;height:13px"></div><div class="sk" style="width:65%;height:18px"></div><div class="sk" style="width:55%;height:12px"></div><div class="sk" style="width:100%;height:36px;margin-top:20px;border-radius:9px"></div></div>
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
 <section class="how">
   <h2>Simple & Free</h2>
   <p>Any change in the directory is instantly visible to all residents.</p>
@@ -323,7 +309,6 @@ footer strong{color:#fff;}
 
 <div id="toast"></div>
 
-<!-- ADD / EDIT MODAL -->
 <div class="ov" id="formModal">
   <div class="modal">
     <div class="mhd">
@@ -365,7 +350,6 @@ footer strong{color:#fff;}
 ───────────────────────────────────────── */
 const API  = 'https://sheetdb.io/api/v1/5cje84i3oi667';
 
-// Exact column headers in your Google Sheet
 const C_SN   = 'SN';
 const C_NAME = 'Name';
 const C_PHON = 'Phone number';
@@ -380,7 +364,7 @@ let activeCat = 'All';
 let isEdit    = false;
 
 /* ─────────────────────────────────────────
-   API CALLS
+   API CALLS (Delete Removed)
 ───────────────────────────────────────── */
 const api = {
   get: () =>
@@ -398,11 +382,7 @@ const api = {
       method:'PATCH',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({data: row})
-    }).then(r => { if (!r.ok) throw r; return r.json(); }),
-
-  delete: sn =>
-    fetch(`${API}/${C_SN}/${encodeURIComponent(sn)}`, {method:'DELETE'})
-      .then(r => { if (!r.ok) throw r; return r.json(); }),
+    }).then(r => { if (!r.ok) throw r; return r.json(); })
 };
 
 /* ─────────────────────────────────────────
@@ -425,13 +405,7 @@ async function loadVendors() {
     renderVendors();
     populateSvcList();
   } catch(e) {
-    showToast('Could not load data — check your connection', 'r');
-    document.getElementById('grid').innerHTML =
-      `<div class="empty-state">
-        <div class="empty-ico">📡</div>
-        <h3>Could not load vendors</h3>
-        <p>Check your internet and tap Refresh</p>
-       </div>`;
+    showToast('Could not load data', 'r');
   } finally {
     document.getElementById('syncBtn').classList.remove('loading');
   }
@@ -482,7 +456,7 @@ function renderVendors() {
   const grid = document.getElementById('grid');
 
   if (!list.length) {
-    grid.innerHTML = `<div class="empty-state"><div class="empty-ico">🔍</div><h3>No vendors found</h3><p>Try a different search or category</p></div>`;
+    grid.innerHTML = `<div class="empty-state"><div class="empty-ico">🔍</div><h3>No vendors found</h3></div>`;
     return;
   }
 
@@ -506,9 +480,6 @@ function renderVendors() {
     </div>`).join('');
 }
 
-/* ─────────────────────────────────────────
-   CALL / COPY
-───────────────────────────────────────── */
 function doCall(phone, name) {
   window.location.href = 'tel:+91' + phone;
   showToast('Calling ' + name + '…', 'g');
@@ -524,9 +495,6 @@ function fbCopy(t) {
   document.execCommand('copy'); document.body.removeChild(el);
 }
 
-/* ─────────────────────────────────────────
-   ADD FORM
-───────────────────────────────────────── */
 function openAdd() {
   isEdit = false;
   document.getElementById('formTitle').textContent = 'Add Vendor';
@@ -536,14 +504,10 @@ function openAdd() {
   document.getElementById('fService').value = '';
   document.getElementById('fRemark').value  = '';
   document.getElementById('formBtnTxt').textContent = 'Add Vendor';
-  document.getElementById('formDel').style.display = 'none';
   resetFormBtn();
   openModal('formModal');
 }
 
-/* ─────────────────────────────────────────
-   EDIT FORM
-───────────────────────────────────────── */
 function openEdit(sn) {
   const v = vendors.find(x => String(x.sn) === String(sn));
   if (!v) return;
@@ -555,14 +519,10 @@ function openEdit(sn) {
   document.getElementById('fService').value = v.svc;
   document.getElementById('fRemark').value  = v.rem || '';
   document.getElementById('formBtnTxt').textContent = 'Update Vendor';
-  document.getElementById('formDel').style.display = 'block';
   resetFormBtn();
   openModal('formModal');
 }
 
-/* ─────────────────────────────────────────
-   SUBMIT (ADD or UPDATE)
-───────────────────────────────────────── */
 async function submitForm() {
   const name  = document.getElementById('fName').value.trim();
   const phone = document.getElementById('fPhone').value.trim();
@@ -570,76 +530,35 @@ async function submitForm() {
   const rem   = document.getElementById('fRemark').value.trim();
   const sn    = document.getElementById('fSN').value.trim();
 
-  if (!name)            { showToast('Please enter a name', 'r'); return; }
-  if (phone.length < 10){ showToast('Enter a valid 10-digit phone number', 'r'); return; }
-  if (!svc)             { showToast('Please enter the type of service', 'r'); return; }
+  if (!name || phone.length < 10 || !svc) {
+    showToast('Please fill all required fields', 'r');
+    return;
+  }
 
   setBtnLoading(true);
 
   try {
     if (isEdit) {
-      await api.patch(sn, {
-        [C_NAME]: name,
-        [C_PHON]: phone,
-        [C_SVC]:  svc,
-        [C_REM]:  rem,
-      });
+      await api.patch(sn, { [C_NAME]: name, [C_PHON]: phone, [C_SVC]: svc, [C_REM]: rem });
       showToast('Vendor updated ✓', 'o');
     } else {
-      const nextSN = vendors.length
-        ? Math.max(...vendors.map(v => parseInt(v.sn)||0)) + 1
-        : 1;
-      await api.post({
-        [C_SN]:   nextSN,
-        [C_NAME]: name,
-        [C_PHON]: phone,
-        [C_SVC]:  svc,
-        [C_REM]:  rem,
-      });
+      const nextSN = vendors.length ? Math.max(...vendors.map(v => parseInt(v.sn)||0)) + 1 : 1;
+      await api.post({ [C_SN]: nextSN, [C_NAME]: name, [C_PHON]: phone, [C_SVC]: svc, [C_REM]: rem });
       showToast('Vendor added! 🎉', 'g');
     }
     closeModal('formModal');
     await loadVendors();
   } catch(e) {
-    showToast('Error saving — please try again', 'r');
+    showToast('Error saving', 'r');
   } finally {
     setBtnLoading(false);
   }
 }
 
-/* ─────────────────────────────────────────
-   DELETE
-───────────────────────────────────────── */
-async function deleteVendor() {
-  const sn   = document.getElementById('fSN').value.trim();
-  const name = document.getElementById('fName').value.trim();
-  if (!confirm(`Delete "${name}" from the directory?`)) return;
-
-  const btn = document.getElementById('formDel');
-  btn.disabled = true;
-  btn.textContent = 'Deleting…';
-
-  try {
-    await api.delete(sn);
-    showToast(`"${name}" deleted`, 'r');
-    closeModal('formModal');
-    await loadVendors();
-  } catch(e) {
-    showToast('Error deleting — please try again', 'r');
-    btn.disabled = false;
-    btn.textContent = '🗑 Delete this vendor';
-  }
-}
-
-/* ─────────────────────────────────────────
-   HELPERS
-───────────────────────────────────────── */
 function setBtnLoading(on) {
   const btn = document.getElementById('formSubmit');
   btn.disabled = on;
-  btn.innerHTML = on
-    ? '<div class="spin-sm"></div> Saving…'
-    : `<span id="formBtnTxt">${isEdit ? 'Update Vendor' : 'Add Vendor'}</span>`;
+  btn.innerHTML = on ? '<div class="spin-sm"></div> Saving…' : `<span id="formBtnTxt">${isEdit ? 'Update Vendor' : 'Add Vendor'}</span>`;
 }
 function resetFormBtn() {
   const btn = document.getElementById('formSubmit');
@@ -661,15 +580,11 @@ function showToast(msg, type='g') {
   tt = setTimeout(() => { t.className = type; }, 2600);
 }
 
-// XSS helpers
 function x(s)  { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function xe(s) { return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
 
-/* ─────────────────────────────────────────
-   INIT
-───────────────────────────────────────── */
 loadVendors();
-setInterval(loadVendors, 60000); // auto-refresh every minute
+setInterval(loadVendors, 60000);
 </script>
 </body>
 </html>
