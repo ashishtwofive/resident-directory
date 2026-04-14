@@ -15,145 +15,65 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
 
-/* ── NAV ── */
 nav{
   background:var(--green);padding:0 20px;
   display:flex;align-items:center;justify-content:space-between;
   height:62px;position:sticky;top:0;z-index:100;
   box-shadow:0 2px 14px rgba(0,0,0,.2);
 }
-.nav-logo{font-family:'Fraunces',serif;font-size:19px;font-weight:900;color:#fff;display:flex;align-items:center;gap:8px;}
+.nav-logo{font-family:'Fraunces',serif;font-size:19px;font-weight:900;color:#fff;}
 .nav-right{display:flex;gap:8px;align-items:center;}
 .sync-btn{
   background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.22);
   color:#fff;border-radius:9px;padding:7px 13px;font-size:12px;font-weight:600;
-  cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;
-  transition:background .2s;
+  cursor:pointer;display:flex;align-items:center;gap:6px;
 }
-.sync-btn:hover{background:rgba(255,255,255,.22);}
-.sync-icon{display:inline-block;transition:transform .5s;}
-.sync-btn.loading .sync-icon{animation:spin .7s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg)}}
 .btn-add-nav{
   background:var(--gold);color:#fff;border:none;border-radius:9px;
   padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;
-  font-family:'DM Sans',sans-serif;transition:opacity .2s;
 }
 
-/* ── HERO ── */
-.hero{
-  background:var(--green);padding:46px 20px 58px;
-  text-align:center;position:relative;overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;inset:0;
-  background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
-}
-.hero h1{font-family:'Fraunces',serif;font-size:clamp(30px,6vw,54px);font-weight:900;color:#fff;line-height:1.08;margin-bottom:12px;}
-.hero p{color:#C0D9CC;font-size:16px;max-width:440px;margin:0 auto 26px;line-height:1.6;}
+.hero{background:var(--green);padding:46px 20px 58px;text-align:center;position:relative;overflow:hidden;}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(30px,6vw,54px);font-weight:900;color:#fff;line-height:1.08;}
 
-/* ── STATS ── */
-.stats-bar{
-  background:var(--card);border-bottom:1px solid var(--border);
-  padding:16px 24px;display:flex;justify-content:center;gap:36px;flex-wrap:wrap;
-}
-.stat{text-align:center;}
+.stats-bar{background:var(--card);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;justify-content:center;gap:36px;flex-wrap:wrap;}
 .stat-num{font-family:'Fraunces',serif;font-size:26px;font-weight:900;color:var(--green);}
-.stat-lbl{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-top:1px;}
+.stat-lbl{font-size:11px;color:var(--ink3);font-weight:600;text-transform:uppercase;}
 
-/* ── MAIN ── */
 .main{max-width:1140px;margin:0 auto;padding:26px 18px 64px;}
-.filter-bar{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
-.sbox{
-  flex:1;min-width:200px;display:flex;align-items:center;
-  background:var(--card);border:2px solid var(--border);border-radius:12px;
-  padding:0 14px;gap:9px;box-shadow:var(--sh);transition:border-color .2s;
-}
-.sbox:focus-within{border-color:var(--green);}
-.sbox input{flex:1;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--ink);background:transparent;padding:12px 0;}
-.rcount{font-size:13px;font-weight:600;color:var(--ink3);white-space:nowrap;}
+.filter-bar{display:flex;gap:10px;margin-bottom:18px;align-items:center;}
+.sbox{flex:1;display:flex;align-items:center;background:var(--card);border:2px solid var(--border);border-radius:12px;padding:0 14px;gap:9px;}
+.sbox input{flex:1;border:none;outline:none;font-size:15px;padding:12px 0;background:transparent;}
 
 .cats{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px;}
-.cat{
-  padding:7px 14px;border-radius:30px;border:2px solid var(--border);
-  background:var(--card);color:var(--ink2);font-size:12px;font-weight:600;
-  cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap;
-}
-.cat:hover{border-color:var(--green);color:var(--green);}
+.cat{padding:7px 14px;border-radius:30px;border:2px solid var(--border);background:var(--card);font-size:12px;font-weight:600;cursor:pointer;}
 .cat.on{background:var(--green);color:#fff;border-color:var(--green);}
 
-/* ── GRID ── */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:15px;}
+.vcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:17px;position:relative;transition:0.2s;display:flex;flex-direction:column;gap:8px;}
+.vcard:hover{transform:translateY(-3px);box-shadow:var(--sh);}
 
-/* vendor card */
-.vcard{
-  background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);
-  padding:17px 17px 13px;display:flex;flex-direction:column;gap:10px;
-  box-shadow:var(--sh);transition:transform .2s,box-shadow .2s;
-  position:relative;overflow:hidden;
-}
-.vcard:hover{transform:translateY(-3px);box-shadow:0 8px 26px rgba(26,18,8,.12);}
-.trusted-badge{position:absolute;top:10px;right:10px;background:#EBF5EE;color:var(--green);font-size:10px;font-weight:800;padding:4px 8px;border-radius:6px;border:1px solid #A8D5BC;z-index:5;}
+.trusted-badge{position:absolute;top:10px;right:10px;background:#EBF5EE;color:var(--green);font-size:10px;font-weight:800;padding:4px 8px;border-radius:6px;border:1px solid #A8D5BC;}
 
-.ctop{display:flex;align-items:flex-start;gap:12px;}
-.cav{
-  width:44px;height:44px;min-width:44px;border-radius:12px;background:var(--mint);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Fraunces',serif;font-size:19px;font-weight:900;color:var(--green);
-}
-.cname{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;line-height:1.3;}
-.ccat{display:inline-block;background:var(--gold-l);color:var(--gold);border-radius:5px;font-size:11px;font-weight:700;padding:2px 8px;}
-.cremark{font-size:12px;color:var(--ink3);margin-top:2px;line-height:1.4;}
-.cphone{font-size:14px;font-weight:700;color:var(--green);letter-spacing:.3px;margin-top:5px;}
+.ctop{display:flex;gap:12px;}
+.cav{width:44px;height:44px;border-radius:12px;background:var(--mint);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:19px;font-weight:900;color:var(--green);}
+.cname{font-size:15px;font-weight:700;line-height:1.2;}
+.ccat{display:inline-block;background:var(--gold-l);color:var(--gold);border-radius:5px;font-size:11px;font-weight:700;padding:2px 8px;margin-top:2px;}
+.cphone{font-size:14px;font-weight:700;color:var(--green);margin-top:5px;}
 
-.cacts{display:flex;gap:7px;margin-top:5px;}
-.bcall{
-  flex:1;background:var(--green);color:#fff;border:none;border-radius:9px;
-  padding:10px 8px;font-size:13px;font-weight:700;cursor:pointer;
-  font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:4px;
-}
-.bedit{
-  background:transparent;color:var(--ink3);border:1.5px solid var(--border);
-  font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;
-  padding:9px 11px;border-radius:9px;transition:all .15s;white-space:nowrap;
-}
+.cacts{display:flex;gap:7px;margin-top:10px;}
+.bcall{flex:1;background:var(--green);color:#fff;border:none;border-radius:9px;padding:10px;font-weight:700;cursor:pointer;}
+.bedit{background:transparent;border:1.5px solid var(--border);border-radius:9px;padding:10px;font-weight:600;cursor:pointer;font-size:12px;}
 
-/* ── MODAL ── */
-.ov{
-  display:none;position:fixed;inset:0;background:rgba(26,18,8,.55);
-  z-index:200;align-items:center;justify-content:center;
-  padding:18px;backdrop-filter:blur(3px);
-}
+.ov{display:none;position:fixed;inset:0;background:rgba(26,18,8,.55);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(3px);}
 .ov.open{display:flex;}
-.modal{
-  background:var(--card);border-radius:20px;width:100%;max-width:510px;
-  max-height:90vh;overflow-y:auto;padding:22px;
-  box-shadow:0 24px 60px rgba(0,0,0,.25);animation:su .25s ease;
-}
-@keyframes su{from{transform:translateY(26px);opacity:0}to{transform:translateY(0);opacity:1}}
-.mbody{display:flex;flex-direction:column;gap:13px;}
-.fg{display:flex;flex-direction:column;gap:5px;}
-.fl{font-size:12px;font-weight:700;color:var(--ink2);letter-spacing:.3px;text-transform:uppercase;}
-.fi,.ft{
-  width:100%;padding:11px 13px;border:2px solid var(--border);border-radius:11px;
-  font-size:15px;font-family:'DM Sans',sans-serif;color:var(--ink);background:#fff;outline:none;
-}
-.bsub{
-  width:100%;padding:13px;background:var(--green);color:#fff;border:none;
-  border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;
-  font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;
-}
+.modal{background:var(--card);border-radius:20px;width:100%;max-width:510px;padding:22px;}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.fi,.ft{width:100%;padding:11px;border:2px solid var(--border);border-radius:11px;outline:none;}
+.bsub{width:100%;padding:13px;background:var(--green);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;}
 
-/* ── TOAST ── */
-#toast{
-  position:fixed;bottom:22px;left:50%;
-  transform:translateX(-50%);
-  padding:11px 22px;border-radius:40px;font-size:14px;font-weight:600;
-  z-index:999;opacity:0;transition:0.3s;color:#fff;
-}
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);padding:11px 22px;border-radius:40px;opacity:0;transition:0.3s;z-index:999;color:#fff;}
 #toast.show{opacity:1;}
-
-footer{background:var(--ink);color:var(--ink3);text-align:center;padding:18px;font-size:13px;}
 </style>
 </head>
 <body>
@@ -162,16 +82,13 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:18px;fo
   <div class="nav-logo">🏘️ Resident Directory</div>
   <div class="nav-right">
     <button class="sync-btn" onclick="window.open('https://drive.google.com/file/d/1W5Ze93vt-Zn8O1Rth_wlWv3fCf23mOd1/view?usp=sharing', '_blank')">📋 Rate List</button>
-    <button class="sync-btn" id="syncBtn" onclick="loadVendors()">
-      <span class="sync-icon">↻</span> Refresh
-    </button>
+    <button class="sync-btn" id="syncBtn" onclick="loadVendors()">↻ Refresh</button>
     <button class="btn-add-nav" onclick="openAdd()">+ Add Vendor</button>
   </div>
 </nav>
 
 <section class="hero">
   <h1>Society Directory</h1>
-  <p>Trusted neighborhood vendors with verified Versalia RWA rates.</p>
 </section>
 
 <div class="stats-bar">
@@ -181,11 +98,7 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:18px;fo
 
 <div class="main">
   <div class="filter-bar">
-    <div class="sbox">
-      <span>🔍</span>
-      <input type="text" id="searchIn" placeholder="Search name, service..." oninput="renderVendors()"/>
-    </div>
-    <div class="rcount" id="rc"></div>
+    <div class="sbox">🔍 <input type="text" id="searchIn" placeholder="Search name or service..." oninput="renderVendors()"/></div>
   </div>
   <div class="cats" id="cats"></div>
   <div class="grid" id="grid"></div>
@@ -195,78 +108,44 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:18px;fo
 
 <div class="ov" id="formModal">
   <div class="modal">
-    <h2 id="formTitle" style="margin-bottom:15px; font-family:'Fraunces',serif;">Add Vendor</h2>
-    <div class="mbody">
-      <div class="fg">
-        <label class="fl">Name *</label>
-        <input class="fi" id="fName" placeholder="e.g. Sahil Aircool"/>
-      </div>
-      <div class="fg">
-        <label class="fl">Phone (10 digits) *</label>
-        <input class="fi" id="fPhone" placeholder="10-digit number" maxlength="10"/>
-      </div>
-      <div class="fg">
-        <label class="fl">Category *</label>
-        <input class="fi" id="fService" placeholder="e.g. AC service, Plumber..." list="svcList"/>
-        <datalist id="svcList"></datalist>
-      </div>
-      <div class="fg">
-        <label class="fl">Description</label>
-        <textarea class="ft" id="fRemark" rows="2" placeholder="Note speciality or timings..."></textarea>
-      </div>
-      <div class="fg">
+    <h2 id="formTitle" style="margin-bottom:15px;">Add Vendor</h2>
+    <div class="fg"><label class="fl">Name *</label><input class="fi" id="fName"/></div>
+    <div class="fg"><label class="fl">Phone *</label><input class="fi" id="fPhone" maxlength="10"/></div>
+    <div class="fg"><label class="fl">Category *</label><input class="fi" id="fService"/></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="ft" id="fRemark"></textarea></div>
+    <div class="fg">
         <label class="fl">Rating</label>
         <div id="starRating" style="font-size:24px; cursor:pointer; color:#E2D9CC;">
           <span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span>
         </div>
         <input type="hidden" id="fRating" value="0"/>
-      </div>
-      <button class="bsub" id="formSubmit" onclick="submitForm()">
-        <span id="formBtnTxt">Save Vendor</span>
-      </button>
-      <button style="width:100%; margin-top:10px; background:none; border:none; color:var(--ink3); cursor:pointer;" onclick="closeModal('formModal')">Cancel</button>
     </div>
+    <button class="bsub" id="formSubmit" onclick="submitForm()">Save Vendor</button>
+    <button style="width:100%; margin-top:10px; background:none; border:none; color:var(--ink3); cursor:pointer;" onclick="closeModal('formModal')">Cancel</button>
   </div>
 </div>
 
-<footer><strong>Resident Directory</strong> · Society Vendor Network · Free to use</footer>
-
 <script>
-const API = 'https://sheetdb.io/api/v1/5cje84i3oi667';
-
+const API_URL = 'https://script.google.com/macros/s/AKfycbyjRdbS5-Q257UfdgWhLc8QP9-5qNYDa2p3OY44c8D4eBs7WVvd6mButjl7tJPEGABQ/exec';
 let vendors = [], activeCat = 'All', isEdit = false, currentRating = 0;
 
 async function loadVendors() {
-  const syncBtn = document.getElementById('syncBtn');
-  if(syncBtn) syncBtn.classList.add('loading');
-  
+  document.getElementById('syncBtn').textContent = 'Loading...';
   try {
-    const rows = await fetch(API).then(r => r.json());
+    const response = await fetch(API_URL);
+    const data = await response.json();
     
-    // Pro Tip: Cleaning Data & Removing Duplicates (Keeping top 3 per category)
-    vendors = rows.map((r) => {
-      // Flexible mapping to find "Phone" regardless of case or leading characters
-      const findKey = (str) => Object.keys(r).find(k => k.toLowerCase().replace(/[^a-z]/g, '').includes(str.toLowerCase()));
-      
-      const nameKey = findKey('name');
-      const phoneKey = findKey('phone'); // Specifically looking for "phone" column
-      const catKey = findKey('category');
-      const descKey = findKey('description');
-      const rateKey = findKey('rating');
+    // Clean Data & Pro Tip: Top 3 per category
+    const cleanList = data.map(v => ({
+      name: v.Name || '',
+      phone: String(v.Phone || '').replace(/\D/g, '').slice(-10),
+      svc: v.Category || 'General',
+      rem: v.Description || '',
+      rating: parseInt(v.Rating) || 0
+    })).filter(v => v.name);
 
-      return {
-        name: r[nameKey] || 'Unknown',
-        // Pro Tip: Clean numbers (Remove spaces, ensure 10 digits)
-        phone: String(r[phoneKey] || '').replace(/\s+/g, '').replace(/[^0-9]/g, '').slice(-10),
-        svc: r[catKey] || 'General',
-        rem: r[descKey] || '',
-        rating: parseInt(r[rateKey]) || 0
-      };
-    }).filter(v => v.name !== 'Unknown');
-
-    // Duplicate logic: Keep top 3 per category based on rating
     const grouped = {};
-    vendors.sort((a,b) => b.rating - a.rating).forEach(v => {
+    cleanList.sort((a,b) => b.rating - a.rating).forEach(v => {
       if(!grouped[v.svc]) grouped[v.svc] = [];
       if(grouped[v.svc].length < 3) grouped[v.svc].push(v);
     });
@@ -274,139 +153,88 @@ async function loadVendors() {
 
     buildCats();
     renderVendors();
-    populateSvcList();
   } catch(e) {
     showToast('Error loading data', '#C0392B');
   } finally {
-    if(syncBtn) syncBtn.classList.remove('loading');
+    document.getElementById('syncBtn').textContent = '↻ Refresh';
   }
 }
 
 function renderVendors() {
   const q = document.getElementById('searchIn').value.toLowerCase();
-  const list = vendors.filter(v => 
-    (activeCat === 'All' || v.svc === activeCat) && 
-    (v.name.toLowerCase().includes(q) || v.svc.toLowerCase().includes(q))
-  );
+  const list = vendors.filter(v => (activeCat === 'All' || v.svc === activeCat) && (v.name.toLowerCase().includes(q) || v.svc.toLowerCase().includes(q)));
   
-  const grid = document.getElementById('grid');
-  grid.innerHTML = list.map(v => `
+  document.getElementById('grid').innerHTML = list.map(v => `
     <div class="vcard">
       ${v.rating >= 4 ? '<div class="trusted-badge">⭐ Highly Recommended</div>' : ''}
       <div class="ctop">
         <div class="cav">${v.name[0].toUpperCase()}</div>
-        <div style="flex:1;padding-right:28px">
+        <div style="flex:1">
           <div class="cname">${v.name}</div>
           <span class="ccat">${v.svc}</span>
-          <div style="color:#C8922A; font-size:12px; margin-top:4px;">
-            ${'★'.repeat(v.rating)}${'☆'.repeat(5-v.rating)}
-          </div>
+          <div style="color:var(--gold); font-size:12px;">${'★'.repeat(v.rating)}${'☆'.repeat(5-v.rating)}</div>
         </div>
       </div>
-      <div class="cphone" style="display:block !important;">📱 +91 ${v.phone}</div>
+      <div class="cphone">📱 +91 ${v.phone}</div>
       <div class="cacts">
         <button class="bcall" onclick="window.location.href='tel:+91${v.phone}'">📞 Call</button>
-        <button class="bedit" onclick="openEdit('${v.name.replace(/'/g, "\\'")}')">✏ Edit</button>
+        <button class="bedit" onclick="openEdit('${v.name.replace(/'/g, "\\'")}')">Edit</button>
       </div>
     </div>`).join('');
+}
 
-  document.getElementById('rc').textContent = `${list.length} vendors visible`;
+async function submitForm() {
+  const payload = {
+    Name: document.getElementById('fName').value,
+    Phone: document.getElementById('fPhone').value,
+    Category: document.getElementById('fService').value,
+    Description: document.getElementById('fRemark').value,
+    Rating: currentRating,
+    Review: "User updated"
+  };
+
+  // POST for both Add and Update (using action: update for PATCH limitation)
+  if (isEdit) {
+    payload.action = "update";
+  }
+
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+    showToast('Saved Successfully!', '#2A5C3F');
+    closeModal('formModal');
+    loadVendors();
+  } catch(e) {
+    showToast('Error saving data', '#C0392B');
+  }
 }
 
 function buildCats() {
-  const uniqueSvc = [...new Set(vendors.map(v => v.svc))].sort();
-  const cats = ['All', ...uniqueSvc];
-  
-  document.getElementById('cats').innerHTML = cats.map(c => 
-    `<button class="cat ${c === activeCat ? 'on' : ''}" onclick="filterByCat('${c}')">${c}</button>`
-  ).join('');
-
+  const cats = ['All', ...new Set(vendors.map(v => v.svc))];
+  document.getElementById('cats').innerHTML = cats.map(c => `<button class="cat ${c===activeCat?'on':''}" onclick="activeCat='${c}';buildCats();renderVendors()">${c}</button>`).join('');
   document.getElementById('sV').textContent = vendors.length;
-  document.getElementById('sC').textContent = uniqueSvc.length;
+  document.getElementById('sC').textContent = cats.length - 1;
 }
 
-function filterByCat(c) {
-  activeCat = c;
-  buildCats();
-  renderVendors();
-}
-
-function setRating(n) {
-  currentRating = n;
-  document.getElementById('fRating').value = n;
-  const stars = document.querySelectorAll('#starRating span');
-  stars.forEach((s, i) => s.style.color = i < n ? '#C8922A' : '#E2D9CC');
-}
-
-function openAdd() {
-  isEdit = false;
-  document.getElementById('formTitle').textContent = 'Add Vendor';
-  document.getElementById('formBtnTxt').textContent = 'Add Vendor';
-  clearForm();
-  openModal('formModal');
-}
-
+function setRating(n) { currentRating = n; const stars = document.querySelectorAll('#starRating span'); stars.forEach((s, i) => s.style.color = i < n ? '#C8922A' : '#E2D9CC'); }
+function openAdd() { isEdit = false; document.getElementById('formTitle').textContent = 'Add Vendor'; clearForm(); openModal('formModal'); }
 function openEdit(name) {
   const v = vendors.find(x => x.name === name);
-  if (!v) return;
   isEdit = true;
   document.getElementById('formTitle').textContent = 'Edit Vendor';
-  document.getElementById('formBtnTxt').textContent = 'Update Vendor';
-  
   document.getElementById('fName').value = v.name;
   document.getElementById('fPhone').value = v.phone;
   document.getElementById('fService').value = v.svc;
   document.getElementById('fRemark').value = v.rem;
-  
   setRating(v.rating);
   openModal('formModal');
 }
-
-async function submitForm() {
-  const name = document.getElementById('fName').value.trim();
-  const phone = document.getElementById('fPhone').value.trim();
-  const svc = document.getElementById('fService').value.trim();
-  const rem = document.getElementById('fRemark').value.trim();
-
-  if (!name || phone.length < 10 || !svc) {
-    showToast('Fill all fields correctly', '#C0392B');
-    return;
-  }
-
-  // Find exact keys for current sheet mapping
-  const firstRow = await fetch(API).then(r => r.json()).then(rows => rows[0]);
-  const findKey = (str) => Object.keys(firstRow).find(k => k.toLowerCase().replace(/[^a-z]/g, '').includes(str.toLowerCase()));
-
-  const payload = {
-    [findKey('name')]: name,
-    [findKey('phone')]: phone,
-    [findKey('category')]: svc,
-    [findKey('description')]: rem,
-    [findKey('rating')]: currentRating
-  };
-  
-  const url = isEdit ? `${API}/${findKey('name')}/${encodeURIComponent(name)}` : API;
-  const method = isEdit ? 'PATCH' : 'POST';
-
-  try {
-    await fetch(url, {
-      method: method,
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({data: isEdit ? payload : [payload]})
-    });
-    closeModal('formModal');
-    loadVendors();
-    showToast(isEdit ? 'Updated!' : 'Added!', '#2A5C3F');
-  } catch(e) { showToast('Save error', '#C0392B'); }
-}
-
-function populateSvcList() {
-  document.getElementById('svcList').innerHTML = [...new Set(vendors.map(v=>v.svc))].sort().map(s=>`<option value="${s}">`).join('');
-}
-function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 function clearForm() { document.querySelectorAll('.fi, .ft').forEach(i => i.value = ''); setRating(0); }
 function showToast(m, c) { const t = document.getElementById('toast'); t.textContent = m; t.style.background = c; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+function openModal(id) { document.getElementById(id).classList.add('open'); }
 
 loadVendors();
 </script>
