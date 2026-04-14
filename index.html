@@ -350,11 +350,11 @@ footer strong{color:#fff;}
 ───────────────────────────────────────── */
 const API  = 'https://sheetdb.io/api/v1/5cje84i3oi667';
 
-const C_SN   = 'SN';
+// Updated to match your specific Sheet columns
 const C_NAME = 'Name';
 const C_PHON = 'Phone number';
-const C_SVC  = 'Type of Service';
-const C_REM  = 'Remark';
+const C_SVC  = 'Category';     // Matches column C
+const C_REM  = 'Description';  // Matches column D
 
 /* ─────────────────────────────────────────
    STATE
@@ -364,7 +364,7 @@ let activeCat = 'All';
 let isEdit    = false;
 
 /* ─────────────────────────────────────────
-   API CALLS (Delete Removed)
+   API CALLS
 ───────────────────────────────────────── */
 const api = {
   get: () =>
@@ -377,8 +377,9 @@ const api = {
       body: JSON.stringify({data:[row]})
     }).then(r => { if (!r.ok) throw r; return r.json(); }),
 
-  patch: (sn, row) =>
-    fetch(`${API}/${C_SN}/${encodeURIComponent(sn)}`, {
+  patch: (name, row) =>
+    // Since there is no SN, we use Name as the identifier for updates
+    fetch(`${API}/${C_NAME}/${encodeURIComponent(name)}`, {
       method:'PATCH',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({data: row})
@@ -389,16 +390,18 @@ const api = {
    LOAD
 ───────────────────────────────────────── */
 async function loadVendors() {
-  document.getElementById('syncBtn').classList.add('loading');
+  const syncBtn = document.getElementById('syncBtn');
+  if(syncBtn) syncBtn.classList.add('loading');
+  
   try {
     const rows = await api.get();
     vendors = rows
-      .filter(r => (r[C_NAME]||'').trim())
-      .map(r => ({
-        sn:    r[C_SN]   || '',
+      .filter(r => (r[C_NAME] || '').trim())
+      .map((r, index) => ({
+        sn:    index + 1, // Local ID since SN column is missing
         name:  r[C_NAME] || '',
         phone: r[C_PHON] || '',
-        svc:   r[C_SVC]  || '',
+        svc:   r[C_SVC]  || 'General',
         rem:   r[C_REM]  || '',
       }));
     buildCats();
@@ -407,7 +410,7 @@ async function loadVendors() {
   } catch(e) {
     showToast('Could not load data', 'r');
   } finally {
-    document.getElementById('syncBtn').classList.remove('loading');
+    if(syncBtn) syncBtn.classList.remove('loading');
   }
 }
 
@@ -415,15 +418,23 @@ async function loadVendors() {
    CATEGORIES
 ───────────────────────────────────────── */
 function buildCats() {
-  const all = ['All', ...[...new Set(vendors.map(v=>v.svc).filter(Boolean))].sort()];
-  document.getElementById('cats').innerHTML = all.map(c =>
-    `<button class="cat${c===activeCat?' on':''}" data-c="${xe(c)}">
-      ${c==='All'?'All Services':c}
+  const uniqueSvc = [...new Set(vendors.map(v => v.svc).filter(Boolean))].sort();
+  const allCats = ['All', ...uniqueSvc];
+  
+  document.getElementById('cats').innerHTML = allCats.map(c =>
+    `<button class="cat${c === activeCat ? ' on' : ''}" onclick="filterByCat('${xe(c)}')">
+      ${c === 'All' ? 'All Services' : c}
      </button>`
   ).join('');
-  document.querySelectorAll('.cat').forEach(b =>
-    b.addEventListener('click', () => { activeCat = b.dataset.c; buildCats(); renderVendors(); })
-  );
+
+  document.getElementById('sV').textContent = vendors.length;
+  document.getElementById('sC').textContent = uniqueSvc.length;
+}
+
+function filterByCat(catName) {
+  activeCat = catName;
+  buildCats();
+  renderVendors();
 }
 
 function populateSvcList() {
@@ -438,31 +449,23 @@ function populateSvcList() {
 function renderVendors() {
   const q = document.getElementById('searchIn').value.toLowerCase();
   const list = vendors.filter(v =>
-    (activeCat==='All' || v.svc===activeCat) &&
+    (activeCat === 'All' || v.svc === activeCat) &&
     (!q || v.name.toLowerCase().includes(q) ||
            v.svc.toLowerCase().includes(q)  ||
-           v.phone.includes(q)              ||
-           (v.rem||'').toLowerCase().includes(q))
+           v.phone.toString().includes(q))
   );
 
-  document.getElementById('rc').textContent =
-    list.length < vendors.length
-      ? `${list.length} of ${vendors.length} vendors`
-      : `${vendors.length} vendors`;
-
-  document.getElementById('sV').textContent = vendors.length;
-  document.getElementById('sC').textContent = new Set(vendors.map(v=>v.svc).filter(Boolean)).size;
+  const rc = document.getElementById('rc');
+  if(rc) rc.textContent = `${list.length} vendors`;
 
   const grid = document.getElementById('grid');
-
   if (!list.length) {
-    grid.innerHTML = `<div class="empty-state"><div class="empty-ico">🔍</div><h3>No vendors found</h3></div>`;
+    grid.innerHTML = `<div class="empty-state"><h3>No vendors found</h3></div>`;
     return;
   }
 
   grid.innerHTML = list.map(v => `
     <div class="vcard">
-      ${v.sn ? `<div class="sn-badge">#${v.sn}</div>` : ''}
       <div class="ctop">
         <div class="cav">${x(v.name)[0].toUpperCase()}</div>
         <div style="flex:1;padding-right:28px">
@@ -475,51 +478,44 @@ function renderVendors() {
       <div class="cacts">
         <button class="bcall" onclick="doCall('${xe(v.phone)}','${xe(v.name)}')">📞 Call</button>
         <button class="bcopy" onclick="doCopy('${xe(v.phone)}')">📋 Copy</button>
-        <button class="bedit" onclick="openEdit('${xe(v.sn)}')">✏ Edit</button>
+        <button class="bedit" onclick="openEdit('${xe(v.name)}')">✏ Edit</button>
       </div>
     </div>`).join('');
 }
 
+/* ─────────────────────────────────────────
+   ACTIONS
+───────────────────────────────────────── */
 function doCall(phone, name) {
   window.location.href = 'tel:+91' + phone;
-  showToast('Calling ' + name + '…', 'g');
+  showToast('Calling ' + name + '...', 'g');
 }
+
 function doCopy(phone) {
   const t = '+91' + phone;
-  navigator.clipboard ? navigator.clipboard.writeText(t).catch(()=>fbCopy(t)) : fbCopy(t);
+  navigator.clipboard.writeText(t);
   showToast(phone + ' copied!', 'g');
-}
-function fbCopy(t) {
-  const el = document.createElement('textarea');
-  el.value = t; document.body.appendChild(el); el.select();
-  document.execCommand('copy'); document.body.removeChild(el);
 }
 
 function openAdd() {
   isEdit = false;
   document.getElementById('formTitle').textContent = 'Add Vendor';
-  document.getElementById('fSN').value    = '';
-  document.getElementById('fName').value  = '';
+  document.getElementById('fName').value = '';
   document.getElementById('fPhone').value = '';
   document.getElementById('fService').value = '';
-  document.getElementById('fRemark').value  = '';
-  document.getElementById('formBtnTxt').textContent = 'Add Vendor';
-  resetFormBtn();
+  document.getElementById('fRemark').value = '';
   openModal('formModal');
 }
 
-function openEdit(sn) {
-  const v = vendors.find(x => String(x.sn) === String(sn));
+function openEdit(name) {
+  const v = vendors.find(x => x.name === name);
   if (!v) return;
   isEdit = true;
-  document.getElementById('formTitle').textContent  = 'Edit Vendor';
-  document.getElementById('fSN').value      = v.sn;
-  document.getElementById('fName').value    = v.name;
-  document.getElementById('fPhone').value   = v.phone;
+  document.getElementById('formTitle').textContent = 'Edit Vendor';
+  document.getElementById('fName').value = v.name;
+  document.getElementById('fPhone').value = v.phone;
   document.getElementById('fService').value = v.svc;
-  document.getElementById('fRemark').value  = v.rem || '';
-  document.getElementById('formBtnTxt').textContent = 'Update Vendor';
-  resetFormBtn();
+  document.getElementById('fRemark').value = v.rem;
   openModal('formModal');
 }
 
@@ -528,9 +524,8 @@ async function submitForm() {
   const phone = document.getElementById('fPhone').value.trim();
   const svc   = document.getElementById('fService').value.trim();
   const rem   = document.getElementById('fRemark').value.trim();
-  const sn    = document.getElementById('fSN').value.trim();
 
-  if (!name || phone.length < 10 || !svc) {
+  if (!name || !phone || !svc) {
     showToast('Please fill all required fields', 'r');
     return;
   }
@@ -538,16 +533,16 @@ async function submitForm() {
   setBtnLoading(true);
 
   try {
+    const payload = { [C_NAME]: name, [C_PHON]: phone, [C_SVC]: svc, [C_REM]: rem };
     if (isEdit) {
-      await api.patch(sn, { [C_NAME]: name, [C_PHON]: phone, [C_SVC]: svc, [C_REM]: rem });
-      showToast('Vendor updated ✓', 'o');
+      await api.patch(name, payload);
+      showToast('Updated ✓', 'o');
     } else {
-      const nextSN = vendors.length ? Math.max(...vendors.map(v => parseInt(v.sn)||0)) + 1 : 1;
-      await api.post({ [C_SN]: nextSN, [C_NAME]: name, [C_PHON]: phone, [C_SVC]: svc, [C_REM]: rem });
-      showToast('Vendor added! 🎉', 'g');
+      await api.post(payload);
+      showToast('Added! 🎉', 'g');
     }
     closeModal('formModal');
-    await loadVendors();
+    loadVendors();
   } catch(e) {
     showToast('Error saving', 'r');
   } finally {
@@ -555,21 +550,16 @@ async function submitForm() {
   }
 }
 
+// Helper UI functions
 function setBtnLoading(on) {
   const btn = document.getElementById('formSubmit');
   btn.disabled = on;
-  btn.innerHTML = on ? '<div class="spin-sm"></div> Saving…' : `<span id="formBtnTxt">${isEdit ? 'Update Vendor' : 'Add Vendor'}</span>`;
-}
-function resetFormBtn() {
-  const btn = document.getElementById('formSubmit');
-  btn.disabled = false;
-  btn.innerHTML = `<span id="formBtnTxt">${isEdit ? 'Update Vendor' : 'Add Vendor'}</span>`;
+  btn.innerHTML = on ? 'Saving...' : 'Save Vendor';
 }
 function openModal(id)  { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.ov').forEach(el =>
-  el.addEventListener('click', e => { if(e.target===el) closeModal(el.id); })
-);
+function x(s)  { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function xe(s) { return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
 
 let tt;
 function showToast(msg, type='g') {
@@ -579,9 +569,6 @@ function showToast(msg, type='g') {
   clearTimeout(tt);
   tt = setTimeout(() => { t.className = type; }, 2600);
 }
-
-function x(s)  { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function xe(s) { return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
 
 loadVendors();
 setInterval(loadVendors, 60000);
