@@ -103,6 +103,7 @@ nav{
 }
 .cname{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;line-height:1.3;}
 .ccat{display:inline-block;background:var(--gold-l);color:var(--gold);border-radius:5px;font-size:11px;font-weight:700;padding:2px 8px;}
+.cremark{font-size:12px;color:var(--ink3);margin-top:2px;line-height:1.4;}
 .cphone{font-size:14px;font-weight:700;color:var(--green);letter-spacing:.3px;margin-top:5px;}
 
 .cacts{display:flex;gap:7px;margin-top:5px;}
@@ -192,7 +193,6 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:18px;fo
 
 <div id="toast"></div>
 
-<!-- ADD / EDIT MODAL -->
 <div class="ov" id="formModal">
   <div class="modal">
     <h2 id="formTitle" style="margin-bottom:15px; font-family:'Fraunces',serif;">Add Vendor</h2>
@@ -243,20 +243,21 @@ async function loadVendors() {
   try {
     const rows = await fetch(API).then(r => r.json());
     
-    // FLEXIBLE MAPPING: This finds columns regardless of spaces or capital letters
-    vendors = rows.map((r, index) => {
-      const findKey = (str) => Object.keys(r).find(k => k.toLowerCase().trim().includes(str.toLowerCase()));
+    // Pro Tip: Cleaning Data & Removing Duplicates (Keeping top 3 per category)
+    vendors = rows.map((r) => {
+      // Flexible mapping to find "Phone" regardless of case or leading characters
+      const findKey = (str) => Object.keys(r).find(k => k.toLowerCase().replace(/[^a-z]/g, '').includes(str.toLowerCase()));
       
-      const nameKey = findKey('Name');
-      const phoneKey = findKey('Phone');
-      const catKey = findKey('Category');
-      const descKey = findKey('Description');
-      const rateKey = findKey('Rating');
+      const nameKey = findKey('name');
+      const phoneKey = findKey('phone'); // Specifically looking for "phone" column
+      const catKey = findKey('category');
+      const descKey = findKey('description');
+      const rateKey = findKey('rating');
 
       return {
         name: r[nameKey] || 'Unknown',
-        // Pro Tip: Force clean 10-digit number display
-        phone: String(r[phoneKey] || '').replace(/\D/g, '').slice(-10),
+        // Pro Tip: Clean numbers (Remove spaces, ensure 10 digits)
+        phone: String(r[phoneKey] || '').replace(/\s+/g, '').replace(/[^0-9]/g, '').slice(-10),
         svc: r[catKey] || 'General',
         rem: r[descKey] || '',
         rating: parseInt(r[rateKey]) || 0
@@ -275,7 +276,7 @@ async function loadVendors() {
     renderVendors();
     populateSvcList();
   } catch(e) {
-    showToast('Error connecting to sheet', '#C0392B');
+    showToast('Error loading data', '#C0392B');
   } finally {
     if(syncBtn) syncBtn.classList.remove('loading');
   }
@@ -302,10 +303,10 @@ function renderVendors() {
           </div>
         </div>
       </div>
-      <div class="cphone" style="display:block !important;">📱 +91 ${v.phone || 'No Number'}</div>
+      <div class="cphone" style="display:block !important;">📱 +91 ${v.phone}</div>
       <div class="cacts">
         <button class="bcall" onclick="window.location.href='tel:+91${v.phone}'">📞 Call</button>
-        <button class="bedit" onclick="openEdit('${v.name.replace(/'/g, "\'")}')">✏ Edit</button>
+        <button class="bedit" onclick="openEdit('${v.name.replace(/'/g, "\\'")}')">✏ Edit</button>
       </div>
     </div>`).join('');
 
@@ -372,19 +373,19 @@ async function submitForm() {
     return;
   }
 
-  // Get original keys to ensure we update the right columns
+  // Find exact keys for current sheet mapping
   const firstRow = await fetch(API).then(r => r.json()).then(rows => rows[0]);
-  const findKey = (str) => Object.keys(firstRow).find(k => k.toLowerCase().trim().includes(str.toLowerCase()));
+  const findKey = (str) => Object.keys(firstRow).find(k => k.toLowerCase().replace(/[^a-z]/g, '').includes(str.toLowerCase()));
 
   const payload = {
-    [findKey('Name')]: name,
-    [findKey('Phone')]: phone,
-    [findKey('Category')]: svc,
-    [findKey('Description')]: rem,
-    [findKey('Rating')]: currentRating
+    [findKey('name')]: name,
+    [findKey('phone')]: phone,
+    [findKey('category')]: svc,
+    [findKey('description')]: rem,
+    [findKey('rating')]: currentRating
   };
   
-  const url = isEdit ? `${API}/${findKey('Name')}/${encodeURIComponent(name)}` : API;
+  const url = isEdit ? `${API}/${findKey('name')}/${encodeURIComponent(name)}` : API;
   const method = isEdit ? 'PATCH' : 'POST';
 
   try {
