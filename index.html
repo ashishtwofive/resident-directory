@@ -234,7 +234,6 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:18px;fo
 
 <script>
 const API = 'https://sheetdb.io/api/v1/5cje84i3oi667';
-const C_NAME = 'Name', C_PHON = 'Phone number', C_SVC = 'Category', C_REM = 'Description', C_RATE = 'Rating';
 
 let vendors = [], activeCat = 'All', isEdit = false, currentRating = 0;
 
@@ -245,29 +244,38 @@ async function loadVendors() {
   try {
     const rows = await fetch(API).then(r => r.json());
     
-    // Cleaning Data & Mapping
-    const rawVendors = rows.filter(r => (r[C_NAME] || '').trim()).map(r => ({
-      name: r[C_NAME],
-      // Pro Tip: Clean numbers (10 digits, remove spaces)
-      phone: (r[C_PHON] || '').toString().replace(/\s+/g, '').slice(-10),
-      svc: r[C_SVC] || 'General',
-      rem: r[C_REM] || '',
-      rating: parseInt(r[C_RATE]) || 0
-    }));
+    // FLEXIBLE MAPPING: This finds columns regardless of spaces or capital letters
+    vendors = rows.map((r, index) => {
+      const findKey = (str) => Object.keys(r).find(k => k.toLowerCase().includes(str.toLowerCase()));
+      
+      const nameKey = findKey('Name');
+      const phoneKey = findKey('Phone');
+      const catKey = findKey('Category');
+      const descKey = findKey('Description');
+      const rateKey = findKey('Rating');
 
-    // Pro Tip: Remove Duplicates (Keep top 3 best per category based on rating)
+      return {
+        name: r[nameKey] || 'Unknown',
+        // Pro Tip: Force clean 10-digit number display
+        phone: String(r[phoneKey] || '').replace(/\D/g, '').slice(-10),
+        svc: r[catKey] || 'General',
+        rem: r[descKey] || '',
+        rating: parseInt(r[rateKey]) || 0
+      };
+    }).filter(v => v.name !== 'Unknown');
+
+    // Duplicate logic: Keep top 3 per category
     const grouped = {};
-    rawVendors.sort((a,b) => b.rating - a.rating).forEach(v => {
+    vendors.sort((a,b) => b.rating - a.rating).forEach(v => {
       if(!grouped[v.svc]) grouped[v.svc] = [];
       if(grouped[v.svc].length < 3) grouped[v.svc].push(v);
     });
-    
     vendors = Object.values(grouped).flat();
+
     buildCats();
     renderVendors();
-    populateSvcList();
   } catch(e) {
-    showToast('Error loading data', '#C0392B');
+    showToast('Error connecting to sheet', '#C0392B');
   } finally {
     if(syncBtn) syncBtn.classList.remove('loading');
   }
@@ -280,61 +288,27 @@ function renderVendors() {
     (v.name.toLowerCase().includes(q) || v.svc.toLowerCase().includes(q))
   );
   
-  const grid = document.getElementById('grid');
-  grid.innerHTML = list.map(v => `
+  document.getElementById('grid').innerHTML = list.map(v => `
     <div class="vcard">
-      <!-- Pro Tip: Trusted Tag for Highly Recommended -->
       ${v.rating >= 4 ? '<div class="trusted-badge">⭐ Highly Recommended</div>' : ''}
       <div class="ctop">
         <div class="cav">${v.name[0].toUpperCase()}</div>
         <div style="flex:1;padding-right:28px">
           <div class="cname">${v.name}</div>
           <span class="ccat">${v.svc}</span>
-          <div style="color:var(--gold); font-size:12px; margin-top:4px;">
+          <div style="color:#C8922A; font-size:12px; margin-top:4px;">
             ${'★'.repeat(v.rating)}${'☆'.repeat(5-v.rating)}
           </div>
         </div>
       </div>
-      <div class="cphone">📱 +91 ${v.phone}</div>
+      <div class="cphone" style="display:block !important;">📱 +91 ${v.phone || 'No Number'}</div>
       <div class="cacts">
         <button class="bcall" onclick="window.location.href='tel:+91${v.phone}'">📞 Call</button>
-        <button class="bedit" onclick="openEdit('${v.name}')">✏ Edit</button>
+        <button class="bedit" onclick="openEdit('${v.name.replace(/'/g, "\\'")}')">✏ Edit</button>
       </div>
     </div>`).join('');
 
   document.getElementById('rc').textContent = `${list.length} vendors visible`;
-}
-
-function buildCats() {
-  const uniqueSvc = [...new Set(vendors.map(v => v.svc))].sort();
-  const cats = ['All', ...uniqueSvc];
-  
-  document.getElementById('cats').innerHTML = cats.map(c => 
-    `<button class="cat ${c === activeCat ? 'on' : ''}" onclick="filterByCat('${c}')">${c}</button>`
-  ).join('');
-
-  document.getElementById('sV').textContent = vendors.length;
-  document.getElementById('sC').textContent = uniqueSvc.length;
-}
-
-function filterByCat(c) {
-  activeCat = c;
-  buildCats();
-  renderVendors();
-}
-
-function setRating(n) {
-  currentRating = n;
-  const stars = document.querySelectorAll('#starRating span');
-  stars.forEach((s, i) => s.style.color = i < n ? '#C8922A' : '#E2D9CC');
-}
-
-function openAdd() {
-  isEdit = false;
-  document.getElementById('formTitle').textContent = 'Add Vendor';
-  document.getElementById('formBtnTxt').textContent = 'Add Vendor';
-  clearForm();
-  openModal('formModal');
 }
 
 function openEdit(name) {
@@ -343,10 +317,13 @@ function openEdit(name) {
   isEdit = true;
   document.getElementById('formTitle').textContent = 'Edit Vendor';
   document.getElementById('formBtnTxt').textContent = 'Update Vendor';
+  
+  // FIXED: Populating the fields properly
   document.getElementById('fName').value = v.name;
   document.getElementById('fPhone').value = v.phone;
   document.getElementById('fService').value = v.svc;
   document.getElementById('fRemark').value = v.rem;
+  
   setRating(v.rating);
   openModal('formModal');
 }
