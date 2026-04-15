@@ -109,6 +109,16 @@ nav{
   display:inline-block;background:var(--gold-l);color:var(--gold);
   border-radius:6px;font-size:11px;font-weight:700;padding:3px 10px;margin-top:4px;
 }
+.cremark {
+  font-size: 12px;
+  color: var(--ink3);
+  margin-top: 4px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
 .cphone{font-size:15px;font-weight:700;color:var(--green);margin-top:6px;}
 
 .cacts{display:flex;gap:8px;margin-top:12px;}
@@ -185,7 +195,6 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:24px;fo
 
 <div id="toast"></div>
 
-<!-- MODAL -->
 <div class="ov" id="formModal">
   <div class="modal">
     <h2 id="formTitle" style="margin-bottom:20px; font-family:'Fraunces', serif;">Add Vendor</h2>
@@ -224,7 +233,7 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:24px;fo
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbyjRdbS5-Q257UfdgWhLc8QP9-5qNYDa2p3OY44c8D4eBs7WVvd6mButjl7tJPEGABQ/exec';
-let vendors = [], activeCat = 'All', isEdit = false, currentRating = 0;
+let vendors = [], activeCat = 'All', isEdit = false, currentRating = 0, editOriginalPhone = "";
 
 async function loadVendors() {
   const syncBtn = document.getElementById('syncBtn');
@@ -233,16 +242,16 @@ async function loadVendors() {
     const response = await fetch(API_URL);
     const data = await response.json();
     
-    // Pro Tip: Cleaning Data & Mapping [cite: SI]
+    // Pro Tip: Cleaning Data & Mapping
     const cleanList = data.map(v => ({
       name: v.Name || '',
-      phone: String(v.Phone || '').replace(/\D/g, '').slice(-10), // Pro Tip: Clean 10-digits [cite: SI]
+      phone: String(v.Phone || '').replace(/\D/g, '').slice(-10),
       svc: v.Category || 'General',
       rem: v.Description || '',
       rating: parseInt(v.Rating) || 0
     })).filter(v => v.name);
 
-    // Pro Tip: Remove Duplicates (Keeping top 3 per category) [cite: SI]
+    // Pro Tip: Remove Duplicates (Keeping top 3 per category)
     const grouped = {};
     cleanList.sort((a,b) => b.rating - a.rating).forEach(v => {
       if(!grouped[v.svc]) grouped[v.svc] = [];
@@ -267,22 +276,22 @@ function renderVendors() {
   const grid = document.getElementById('grid');
   grid.innerHTML = list.map(v => `
     <div class="vcard">
-      <!-- Pro Tip: Highly Recommended Tag [cite: SI] -->
       ${v.rating >= 4 ? '<div class="trusted-badge">⭐ Highly Recommended</div>' : ''}
       <div class="ctop">
         <div class="cav">${v.name[0].toUpperCase()}</div>
-        <div style="flex:1">
+        <div style="flex:1; min-width:0;">
           <div class="cname">${v.name}</div>
           <span class="ccat">${v.svc}</span>
           <div style="color:var(--gold); font-size:12px; margin-top:2px;">
             ${'★'.repeat(v.rating)}${'☆'.repeat(5-v.rating)}
           </div>
+          ${v.rem ? `<div class="cremark" title="${v.rem}">${v.rem}</div>` : ''}
         </div>
       </div>
       <div class="cphone">📱 +91 ${v.phone}</div>
       <div class="cacts">
         <button class="bcall" onclick="window.location.href='tel:+91${v.phone}'">📞 Call</button>
-        <button class="bedit" onclick="openEdit('${v.name.replace(/'/g, "\'")}')">Edit</button>
+        <button class="bedit" onclick="openEdit('${v.name.replace(/'/g, "\\'")}')">Edit</button>
       </div>
     </div>`).join('');
 }
@@ -293,20 +302,28 @@ async function submitForm() {
   btn.textContent = 'Saving...';
   btn.disabled = true;
 
+  const name = document.getElementById('fName').value.trim();
+  const phone = document.getElementById('fPhone').value.trim();
+  const svc = document.getElementById('fService').value.trim();
+  const rem = document.getElementById('fRemark').value.trim();
+
   const payload = {
-    Name: document.getElementById('fName').value.trim(),
-    Phone: document.getElementById('fPhone').value.trim(),
-    Category: document.getElementById('fService').value.trim(),
-    Description: document.getElementById('fRemark').value.trim(),
+    Name: name,
+    Phone: phone,
+    Category: svc,
+    Description: rem,
     Rating: currentRating,
     Review: "User updated"
   };
 
-  if (isEdit) payload.action = "update"; // Using update action for Google Apps Script [cite: SI]
+  if (isEdit) {
+    payload.action = "update";
+    payload.oldPhone = editOriginalPhone; 
+  }
 
   try {
     await fetch(API_URL, {
-      method: "POST", // Always POST for Google Apps Script [cite: SI]
+      method: "POST",
       body: JSON.stringify(payload)
     });
     showToast('Saved Successfully!', '#2A5C3F');
@@ -357,6 +374,7 @@ function openEdit(name) {
   const v = vendors.find(x => x.name === name);
   if(!v) return;
   isEdit = true;
+  editOriginalPhone = v.phone; 
   document.getElementById('formTitle').textContent = 'Edit Vendor';
   document.getElementById('fName').value = v.name;
   document.getElementById('fPhone').value = v.phone;
