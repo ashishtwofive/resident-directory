@@ -24,91 +24,42 @@ nav{
 }
 .nav-logo{font-family:'Fraunces',serif;font-size:19px;font-weight:900;color:#fff;}
 .nav-right{display:flex;gap:8px;align-items:center;}
-.sync-btn{
-  background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.22);
-  color:#fff;border-radius:9px;padding:7px 13px;font-size:12px;font-weight:600;
-  cursor:pointer;display:flex;align-items:center;gap:6px;
-}
-.btn-add-nav{
-  background:var(--gold);color:#fff;border:none;border-radius:9px;
-  padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;
-}
+.sync-btn{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.22);color:#fff;border-radius:9px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;}
+.btn-add-nav{background:var(--gold);color:#fff;border:none;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;}
 
 /* ── HERO ── */
-.hero{
-  background:var(--green);padding:60px 20px 80px;
-  text-align:center;position:relative;overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;inset:0;
-  background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
-}
-.hero-pill{
-  display:inline-block;background:rgba(255,255,255,.12);
-  border:1.5px solid rgba(255,255,255,.2);color:#fff;
-  font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
-  padding:6px 16px;border-radius:30px;margin-bottom:24px;position:relative;
-}
-.hero h1{
-  font-family:'Fraunces',serif;font-size:clamp(40px,8vw,72px);font-weight:900;
-  color:#fff;line-height:1;margin-bottom:20px;position:relative;
-}
+.hero{background:var(--green);padding:60px 20px 80px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(40px,8vw,72px);font-weight:900;color:#fff;line-height:1;margin-bottom:20px;position:relative;}
 .hero h1 em{font-style:italic;color:var(--mint);font-weight:400;}
-.hero p{
-  color:#C0D9CC;font-size:clamp(16px,2vw,19px);max-width:600px;
-  margin:0 auto;line-height:1.5;position:relative;
-}
+.hero p{color:#C0D9CC;font-size:clamp(16px,2vw,19px);max-width:600px;margin:0 auto;line-height:1.5;position:relative;}
 
 /* ── STATS ── */
-.stats-bar{
-  background:var(--card);border-bottom:1px solid var(--border);
-  padding:16px 24px;display:flex;justify-content:center;gap:48px;flex-wrap:wrap;
-}
+.stats-bar{background:var(--card);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;justify-content:center;gap:48px;flex-wrap:wrap;}
 .stat{text-align:center;}
 .stat-num{font-family:'Fraunces',serif;font-size:28px;font-weight:900;color:var(--green);}
-.stat-lbl{font-size:11px;color:var(--ink3);font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.stat-lbl{font-size:11px;color:var(--ink3);font-weight:700;text-transform:uppercase;}
 
 /* ── MAIN ── */
 .main{max-width:1140px;margin:0 auto;padding:30px 18px 80px;}
 .filter-bar{display:flex;gap:12px;margin-bottom:24px;align-items:center;}
-.sbox{
-  flex:1;display:flex;align-items:center;background:var(--card);
-  border:2px solid var(--border);border-radius:14px;padding:0 16px;gap:10px;
-}
+.sbox{flex:1;display:flex;align-items:center;background:var(--card);border:2px solid var(--border);border-radius:14px;padding:0 16px;gap:10px;}
 .sbox input{flex:1;border:none;outline:none;font-size:16px;padding:14px 0;background:transparent;}
 
 .cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
-.cat{
-  padding:8px 18px;border-radius:30px;border:2px solid var(--border);
-  background:var(--card);font-size:13px;font-weight:600;cursor:pointer;
-  transition:all 0.2s;
-}
+.cat{padding:8px 18px;border-radius:30px;border:2px solid var(--border);background:var(--card);font-size:13px;font-weight:600;cursor:pointer;}
 .cat.on{background:var(--green);color:#fff;border-color:var(--green);}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
-.vcard{
-  background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);
-  padding:20px;position:relative;transition:0.25s;display:flex;flex-direction:column;gap:10px;
-}
+.vcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:20px;position:relative;transition:0.25s;display:flex;flex-direction:column;gap:10px;}
 .vcard:hover{transform:translateY(-4px);box-shadow:var(--sh);}
-
-.trusted-badge{
-  position:absolute;top:12px;right:12px;background:#EBF5EE;color:var(--green);
-  font-size:10px;font-weight:800;padding:5px 10px;border-radius:7px;
-  border:1px solid #A8D5BC;z-index:5;
-}
+.trusted-badge{position:absolute;top:12px;right:12px;background:#EBF5EE;color:var(--green);font-size:10px;font-weight:800;padding:5px 10px;border-radius:7px;border:1px solid #A8D5BC;z-index:5;}
 
 .ctop{display:flex;gap:14px;}
-.cav{
-  width:48px;height:48px;border-radius:14px;background:var(--mint);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Fraunces',serif;font-size:20px;font-weight:900;color:var(--green);
-}
+.cav{width:48px;height:48px;border-radius:14px;background:var(--mint);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:20px;font-weight:900;color:var(--green);}
 .cname{font-size:16px;font-weight:700;line-height:1.2;}
-.ccat{
-  display:inline-block;background:var(--gold-l);color:var(--gold);
-  border-radius:6px;font-size:11px;font-weight:700;padding:3px 10px;margin-top:4px;
-}
+.ccat{display:inline-block;background:var(--gold-l);color:var(--gold);border-radius:6px;font-size:11px;font-weight:700;padding:3px 10px;margin-top:4px;}
+
 .cremark {
   font-size: 12px;
   color: var(--ink3);
@@ -119,46 +70,22 @@ nav{
   text-overflow: ellipsis;
   width: 100%;
 }
+
 .cphone{font-size:15px;font-weight:700;color:var(--green);margin-top:6px;}
-
 .cacts{display:flex;gap:8px;margin-top:12px;}
-.bcall{
-  flex:1;background:var(--green);color:#fff;border:none;border-radius:10px;
-  padding:12px;font-weight:700;cursor:pointer;transition:opacity 0.2s;
-}
-.bedit{
-  background:transparent;border:1.5px solid var(--border);border-radius:10px;
-  padding:12px;font-weight:600;cursor:pointer;font-size:13px;
-}
+.bcall{flex:1;background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px;font-weight:700;cursor:pointer;}
+.bedit{background:transparent;border:1.5px solid var(--border);border-radius:10px;padding:12px;font-weight:600;cursor:pointer;font-size:13px;}
 
-/* ── MODAL ── */
-.ov{
-  display:none;position:fixed;inset:0;background:rgba(26,18,8,.6);
-  z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);
-}
+.ov{display:none;position:fixed;inset:0;background:rgba(26,18,8,.6);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
 .ov.open{display:flex;}
-.modal{
-  background:var(--card);border-radius:24px;width:100%;max-width:520px;
-  padding:28px;box-shadow:0 30px 70px rgba(0,0,0,0.3);
-}
+.modal{background:var(--card);border-radius:24px;width:100%;max-width:520px;padding:28px;}
 .fg{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
 .fl{font-size:12px;font-weight:700;text-transform:uppercase;color:var(--ink2);}
-.fi,.ft{
-  width:100%;padding:12px 14px;border:2px solid var(--border);
-  border-radius:12px;outline:none;font-size:15px;
-}
-.bsub{
-  width:100%;padding:14px;background:var(--green);color:#fff;
-  border:none;border-radius:14px;font-weight:700;font-size:16px;cursor:pointer;
-}
+.fi,.ft{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:12px;outline:none;font-size:15px;}
+.bsub{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:14px;font-weight:700;font-size:16px;cursor:pointer;}
 
-#toast{
-  position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
-  padding:12px 24px;border-radius:50px;opacity:0;transition:0.3s;
-  z-index:999;color:#fff;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,0.2);
-}
+#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:50px;opacity:0;transition:0.3s;z-index:999;color:#fff;}
 #toast.show{opacity:1;}
-
 footer{background:var(--ink);color:var(--ink3);text-align:center;padding:24px;font-size:14px;}
 </style>
 </head>
@@ -167,6 +94,7 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:24px;fo
 <nav>
   <div class="nav-logo">🏘️ Resident Directory</div>
   <div class="nav-right">
+    <button class="sync-btn" onclick="window.open('https://drive.google.com/file/d/1caR1xi7Cdu-dj7mUd4SmEty04lH7mOVu/view?usp=sharing', '_blank')">🧾 Bills</button>
     <button class="sync-btn" onclick="window.open('https://drive.google.com/file/d/1W5Ze93vt-Zn8O1Rth_wlWv3fCf23mOd1/view?usp=sharing', '_blank')">📋 Rate List</button>
     <button class="sync-btn" id="syncBtn" onclick="loadVendors()">↻ Refresh</button>
     <button class="btn-add-nav" onclick="openAdd()">+ Add Vendor</button>
@@ -174,15 +102,13 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:24px;fo
 </nav>
 
 <section class="hero">
-  <div class="hero-pill">🏠 Society Vendor Network</div>
   <h1>All Society Vendors<br><em>One Place, Free</em></h1>
-  <p>Trusted vendors recommended by your neighbours — plumbers, doctors, cooks & more. Search and call instantly.</p>
+  <p>Trusted vendors recommended by your neighbours — plumbers, doctors, cooks & more.</p>
 </section>
 
 <div class="stats-bar">
   <div class="stat"><div class="stat-num" id="sV">—</div><div class="stat-lbl">Vendors</div></div>
   <div class="stat"><div class="stat-num" id="sC">—</div><div class="stat-lbl">Categories</div></div>
-  <div class="stat"><div class="stat-num">Free</div><div class="stat-lbl">Always</div></div>
 </div>
 
 <div class="main">
@@ -195,27 +121,15 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:24px;fo
 
 <div id="toast"></div>
 
+<!-- MODAL -->
 <div class="ov" id="formModal">
   <div class="modal">
-    <h2 id="formTitle" style="margin-bottom:20px; font-family:'Fraunces', serif;">Add Vendor</h2>
+    <h2 id="formTitle" style="margin-bottom:20px;">Add Vendor</h2>
     <div class="mbody">
-      <div class="fg">
-        <label class="fl">Name *</label>
-        <input class="fi" id="fName" placeholder="e.g. Sahil Aircool"/>
-      </div>
-      <div class="fg">
-        <label class="fl">Phone *</label>
-        <input class="fi" id="fPhone" maxlength="10" placeholder="10-digit number"/>
-      </div>
-      <div class="fg">
-        <label class="fl">Type of Service * (Select or Type New)</label>
-        <input class="fi" id="fService" list="svcList" placeholder="e.g. Plumber, Electrician..."/>
-        <datalist id="svcList"></datalist>
-      </div>
-      <div class="fg">
-        <label class="fl">Description</label>
-        <textarea class="ft" id="fRemark" rows="2" placeholder="Note specialty or timings..."></textarea>
-      </div>
+      <div class="fg"><label class="fl">Name *</label><input class="fi" id="fName"/></div>
+      <div class="fg"><label class="fl">Phone *</label><input class="fi" id="fPhone" maxlength="10"/></div>
+      <div class="fg"><label class="fl">Category *</label><input class="fi" id="fService" list="svcList"/><datalist id="svcList"></datalist></div>
+      <div class="fg"><label class="fl">Description</label><textarea class="ft" id="fRemark"></textarea></div>
       <div class="fg">
         <label class="fl">Rating</label>
         <div id="starRating" style="font-size:28px; cursor:pointer; color:#E2D9CC;">
@@ -224,34 +138,27 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:24px;fo
         <input type="hidden" id="fRating" value="0"/>
       </div>
       <button class="bsub" id="formSubmit" onclick="submitForm()">Save Vendor</button>
-      <button style="width:100%; margin-top:12px; background:none; border:none; color:var(--ink3); font-weight:600; cursor:pointer;" onclick="closeModal('formModal')">Cancel</button>
+      <button style="width:100%; margin-top:12px; background:none; border:none; color:var(--ink3); cursor:pointer;" onclick="closeModal('formModal')">Cancel</button>
     </div>
   </div>
 </div>
 
-<footer><strong>Resident Directory</strong> · Society Vendor Network · Free to use</footer>
-
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbyjRdbS5-Q257UfdgWhLc8QP9-5qNYDa2p3OY44c8D4eBs7WVvd6mButjl7tJPEGABQ/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwGPZLaFU8MhmYaeQt6q7g6AG-6svuORKZ-knuoHTip6zTGz7iKycInGV6mJqhRREo/exec';
 let vendors = [], activeCat = 'All', isEdit = false, currentRating = 0, editOriginalPhone = "";
 
 async function loadVendors() {
-  const syncBtn = document.getElementById('syncBtn');
-  syncBtn.textContent = 'Loading...';
   try {
     const response = await fetch(API_URL);
     const data = await response.json();
-    
-    // Pro Tip: Cleaning Data & Mapping
     const cleanList = data.map(v => ({
       name: v.Name || '',
       phone: String(v.Phone || '').replace(/\D/g, '').slice(-10),
       svc: v.Category || 'General',
       rem: v.Description || '',
-      rating: parseInt(v.Rating) || 0
+      rating: parseFloat(v.Rating) || 0
     })).filter(v => v.name);
 
-    // Pro Tip: Remove Duplicates (Keeping top 3 per category)
     const grouped = {};
     cleanList.sort((a,b) => b.rating - a.rating).forEach(v => {
       if(!grouped[v.svc]) grouped[v.svc] = [];
@@ -262,19 +169,14 @@ async function loadVendors() {
     buildCats();
     renderVendors();
     updateDatalist();
-  } catch(e) {
-    showToast('Error loading data', '#C0392B');
-  } finally {
-    syncBtn.textContent = '↻ Refresh';
-  }
+  } catch(e) { showToast('Error loading data', '#C0392B'); }
 }
 
 function renderVendors() {
   const q = document.getElementById('searchIn').value.toLowerCase();
   const list = vendors.filter(v => (activeCat === 'All' || v.svc === activeCat) && (v.name.toLowerCase().includes(q) || v.svc.toLowerCase().includes(q)));
   
-  const grid = document.getElementById('grid');
-  grid.innerHTML = list.map(v => `
+  document.getElementById('grid').innerHTML = list.map(v => `
     <div class="vcard">
       ${v.rating >= 4 ? '<div class="trusted-badge">⭐ Highly Recommended</div>' : ''}
       <div class="ctop">
@@ -283,7 +185,7 @@ function renderVendors() {
           <div class="cname">${v.name}</div>
           <span class="ccat">${v.svc}</span>
           <div style="color:var(--gold); font-size:12px; margin-top:2px;">
-            ${'★'.repeat(v.rating)}${'☆'.repeat(5-v.rating)}
+            ${'★'.repeat(Math.round(v.rating))}${'☆'.repeat(5-Math.round(v.rating))} (${v.rating.toFixed(1)})
           </div>
           ${v.rem ? `<div class="cremark" title="${v.rem}">${v.rem}</div>` : ''}
         </div>
@@ -291,64 +193,37 @@ function renderVendors() {
       <div class="cphone">📱 +91 ${v.phone}</div>
       <div class="cacts">
         <button class="bcall" onclick="window.location.href='tel:+91${v.phone}'">📞 Call</button>
-        <button class="bedit" onclick="openEdit('${v.name.replace(/'/g, "\\'")}')">Edit</button>
+        <button class="bedit" onclick="openEdit('${v.phone}')">Edit</button>
       </div>
     </div>`).join('');
 }
 
 async function submitForm() {
-  const btn = document.getElementById('formSubmit');
-  const originalText = btn.textContent;
-  btn.textContent = 'Saving...';
-  btn.disabled = true;
-
-  const name = document.getElementById('fName').value.trim();
-  const phone = document.getElementById('fPhone').value.trim();
-  const svc = document.getElementById('fService').value.trim();
-  const rem = document.getElementById('fRemark').value.trim();
-
   const payload = {
-    Name: name,
-    Phone: phone,
-    Category: svc,
-    Description: rem,
-    Rating: currentRating,
-    Review: "User updated"
+    Name: document.getElementById('fName').value,
+    Phone: document.getElementById('fPhone').value,
+    Category: document.getElementById('fService').value,
+    Description: document.getElementById('fRemark').value,
+    Rating: currentRating
   };
 
   if (isEdit) {
     payload.action = "update";
-    payload.oldPhone = editOriginalPhone; 
+    payload.oldPhone = editOriginalPhone;
   }
 
-  try {
-    await fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
-    showToast('Saved Successfully!', '#2A5C3F');
-    closeModal('formModal');
-    loadVendors();
-  } catch(e) {
-    showToast('Error saving data', '#C0392B');
-  } finally {
-    btn.textContent = originalText;
-    btn.disabled = false;
-  }
+  await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
+  showToast('Saved!', '#2A5C3F');
+  closeModal('formModal');
+  loadVendors();
 }
 
 function buildCats() {
   const uniqueCats = [...new Set(vendors.map(v => v.svc))].sort();
   const cats = ['All', ...uniqueCats];
-  document.getElementById('cats').innerHTML = cats.map(c => `<button class="cat ${c===activeCat?'on':''}" onclick="setCategory('${c}')">${c}</button>`).join('');
+  document.getElementById('cats').innerHTML = cats.map(c => `<button class="cat ${c===activeCat?'on':''}" onclick="activeCat='${c}';buildCats();renderVendors()">${c}</button>`).join('');
   document.getElementById('sV').textContent = vendors.length;
   document.getElementById('sC').textContent = uniqueCats.length;
-}
-
-function setCategory(c) {
-  activeCat = c;
-  buildCats();
-  renderVendors();
 }
 
 function updateDatalist() {
@@ -356,50 +231,24 @@ function updateDatalist() {
   document.getElementById('svcList').innerHTML = uniqueCats.map(c => `<option value="${c}">`).join('');
 }
 
-function setRating(n) { 
-  currentRating = n; 
-  document.getElementById('fRating').value = n;
-  const stars = document.querySelectorAll('#starRating span'); 
-  stars.forEach((s, i) => s.style.color = i < n ? '#C8922A' : '#E2D9CC'); 
-}
-
-function openAdd() { 
-  isEdit = false; 
-  document.getElementById('formTitle').textContent = 'Add Vendor'; 
-  clearForm(); 
-  openModal('formModal'); 
-}
-
-function openEdit(name) {
-  const v = vendors.find(x => x.name === name);
-  if(!v) return;
+function setRating(n) { currentRating = n; const stars = document.querySelectorAll('#starRating span'); stars.forEach((s, i) => s.style.color = i < n ? '#C8922A' : '#E2D9CC'); }
+function openAdd() { isEdit = false; document.getElementById('formTitle').textContent = 'Add Vendor'; clearForm(); openModal('formModal'); }
+function openEdit(phone) {
+  const v = vendors.find(x => x.phone === phone);
   isEdit = true;
-  editOriginalPhone = v.phone; 
+  editOriginalPhone = v.phone;
   document.getElementById('formTitle').textContent = 'Edit Vendor';
   document.getElementById('fName').value = v.name;
   document.getElementById('fPhone').value = v.phone;
   document.getElementById('fService').value = v.svc;
   document.getElementById('fRemark').value = v.rem;
-  setRating(v.rating);
+  setRating(Math.round(v.rating));
   openModal('formModal');
 }
-
-function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function clearForm() { 
-  document.getElementById('fName').value = '';
-  document.getElementById('fPhone').value = '';
-  document.getElementById('fService').value = '';
-  document.getElementById('fRemark').value = '';
-  setRating(0); 
-}
-function showToast(m, c) { 
-  const t = document.getElementById('toast'); 
-  t.textContent = m; 
-  t.style.background = c; 
-  t.classList.add('show'); 
-  setTimeout(() => t.classList.remove('show'), 3000); 
-}
+function clearForm() { document.querySelectorAll('.fi, .ft').forEach(i => i.value = ''); setRating(0); }
+function showToast(m, c) { const t = document.getElementById('toast'); t.textContent = m; t.style.background = c; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+function openModal(id) { document.getElementById(id).classList.add('open'); }
 
 loadVendors();
 </script>
