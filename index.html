@@ -29,14 +29,12 @@ nav{
 
 /* ── HERO ── */
 .hero{background:var(--green);padding:60px 20px 80px;text-align:center;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");}
 .hero h1{font-family:'Fraunces',serif;font-size:clamp(40px,8vw,72px);font-weight:900;color:#fff;line-height:1;margin-bottom:20px;position:relative;}
 .hero h1 em{font-style:italic;color:var(--mint);font-weight:400;}
 .hero p{color:#C0D9CC;font-size:clamp(16px,2vw,19px);max-width:600px;margin:0 auto;line-height:1.5;position:relative;}
 
 /* ── STATS ── */
 .stats-bar{background:var(--card);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;justify-content:center;gap:48px;flex-wrap:wrap;}
-.stat{text-align:center;}
 .stat-num{font-family:'Fraunces',serif;font-size:28px;font-weight:900;color:var(--green);}
 .stat-lbl{font-size:11px;color:var(--ink3);font-weight:700;text-transform:uppercase;}
 
@@ -53,24 +51,19 @@ nav{
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
 .vcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:20px;position:relative;transition:0.25s;display:flex;flex-direction:column;gap:10px;}
 .vcard:hover{transform:translateY(-4px);box-shadow:var(--sh);}
-.trusted-badge{position:absolute;top:12px;right:12px;background:#EBF5EE;color:var(--green);font-size:10px;font-weight:800;padding:5px 10px;border-radius:7px;border:1px solid #A8D5BC;z-index:5;}
+
+.trusted-badge{
+  position:absolute;top:12px;right:12px;background:#EBF5EE;color:var(--green);
+  font-size:10px;font-weight:800;padding:5px 10px;border-radius:7px;
+  border:1px solid #A8D5BC;z-index:5;
+}
 
 .ctop{display:flex;gap:14px;}
 .cav{width:48px;height:48px;border-radius:14px;background:var(--mint);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:20px;font-weight:900;color:var(--green);}
-.cname{font-size:16px;font-weight:700;line-height:1.2;}
+.cname{font-size:16px;font-weight:700;line-height:1.2; padding-right: 45px;}
 .ccat{display:inline-block;background:var(--gold-l);color:var(--gold);border-radius:6px;font-size:11px;font-weight:700;padding:3px 10px;margin-top:4px;}
 
-.cremark {
-  font-size: 12px;
-  color: var(--ink3);
-  margin-top: 4px;
-  line-height: 1.4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-}
-
+.cremark {font-size: 12px; color: var(--ink3); margin-top: 4px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;}
 .cphone{font-size:15px;font-weight:700;color:var(--green);margin-top:6px;}
 .cacts{display:flex;gap:8px;margin-top:12px;}
 .bcall{flex:1;background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px;font-weight:700;cursor:pointer;}
@@ -86,7 +79,6 @@ nav{
 
 #toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:50px;opacity:0;transition:0.3s;z-index:999;color:#fff;}
 #toast.show{opacity:1;}
-footer{background:var(--ink);color:var(--ink3);text-align:center;padding:24px;font-size:14px;}
 </style>
 </head>
 <body>
@@ -121,14 +113,17 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:24px;fo
 
 <div id="toast"></div>
 
-<!-- MODAL -->
 <div class="ov" id="formModal">
   <div class="modal">
-    <h2 id="formTitle" style="margin-bottom:20px;">Add Vendor</h2>
+    <h2 id="formTitle" style="margin-bottom:20px; font-family:'Fraunces', serif;">Manage Vendor</h2>
     <div class="mbody">
       <div class="fg"><label class="fl">Name *</label><input class="fi" id="fName"/></div>
       <div class="fg"><label class="fl">Phone *</label><input class="fi" id="fPhone" maxlength="10"/></div>
-      <div class="fg"><label class="fl">Category *</label><input class="fi" id="fService" list="svcList"/><datalist id="svcList"></datalist></div>
+      <div class="fg">
+        <label class="fl">Category *</label>
+        <input class="fi" id="fService" list="svcList" placeholder="Select or type new..."/>
+        <datalist id="svcList"></datalist>
+      </div>
       <div class="fg"><label class="fl">Description</label><textarea class="ft" id="fRemark"></textarea></div>
       <div class="fg">
         <label class="fl">Rating</label>
@@ -137,21 +132,27 @@ footer{background:var(--ink);color:var(--ink3);text-align:center;padding:24px;fo
         </div>
         <input type="hidden" id="fRating" value="0"/>
       </div>
-      <button class="bsub" id="formSubmit" onclick="submitForm()">Save Vendor</button>
-      <button style="width:100%; margin-top:12px; background:none; border:none; color:var(--ink3); cursor:pointer;" onclick="closeModal('formModal')">Cancel</button>
+      <button class="bsub" id="formSubmit" onclick="submitForm()">Save Changes</button>
+      <button style="width:100%; margin-top:12px; background:none; border:none; color:var(--ink3); font-weight:600; cursor:pointer;" onclick="closeModal()">Cancel</button>
     </div>
   </div>
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbwGPZLaFU8MhmYaeQt6q7g6AG-6svuORKZ-knuoHTip6zTGz7iKycInGV6mJqhRREo/exec';
-let vendors = [], activeCat = 'All', isEdit = false, currentRating = 0, editOriginalPhone = "";
+const API_URL = 'https://script.google.com/macros/s/AKfycby-ZdPN7LWyTYTDJPhSbsZ3CPRKSJrZ6m5zf1xeyY_DhQeIQjusdakLps1e7LvDdR_B/exec';
+let vendors = [], activeCat = 'All', currentRating = 0;
 
 async function loadVendors() {
+  const syncBtn = document.getElementById('syncBtn');
+  syncBtn.textContent = 'Loading...';
   try {
-    const response = await fetch(API_URL);
-    const data = await response.json();
-    const cleanList = data.map(v => ({
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    
+    // Sort High-to-Low initially
+    const sortedData = data.sort((a,b) => (parseFloat(b.Rating) || 0) - (parseFloat(a.Rating) || 0));
+
+    vendors = sortedData.map(v => ({
       name: v.Name || '',
       phone: String(v.Phone || '').replace(/\D/g, '').slice(-10),
       svc: v.Category || 'General',
@@ -159,26 +160,23 @@ async function loadVendors() {
       rating: parseFloat(v.Rating) || 0
     })).filter(v => v.name);
 
-    const grouped = {};
-    cleanList.sort((a,b) => b.rating - a.rating).forEach(v => {
-      if(!grouped[v.svc]) grouped[v.svc] = [];
-      if(grouped[v.svc].length < 3) grouped[v.svc].push(v);
-    });
-    vendors = Object.values(grouped).flat();
-
     buildCats();
     renderVendors();
-    updateDatalist();
-  } catch(e) { showToast('Error loading data', '#C0392B'); }
+    updateDatalist(); // Populate the dropdown suggestions
+  } catch(e) { showToast('Load Error', '#C0392B'); }
+  syncBtn.textContent = '↻ Refresh';
 }
 
 function renderVendors() {
   const q = document.getElementById('searchIn').value.toLowerCase();
-  const list = vendors.filter(v => (activeCat === 'All' || v.svc === activeCat) && (v.name.toLowerCase().includes(q) || v.svc.toLowerCase().includes(q)));
+  const list = vendors.filter(v => 
+    (activeCat === 'All' || v.svc === activeCat) && 
+    (v.name.toLowerCase().includes(q) || v.svc.toLowerCase().includes(q))
+  );
   
   document.getElementById('grid').innerHTML = list.map(v => `
     <div class="vcard">
-      ${v.rating >= 4 ? '<div class="trusted-badge">⭐ Highly Recommended</div>' : ''}
+      ${v.rating >= 4.5 ? '<div class="trusted-badge">⭐ Highly Recommended</div>' : ''}
       <div class="ctop">
         <div class="cav">${v.name[0].toUpperCase()}</div>
         <div style="flex:1; min-width:0;">
@@ -199,6 +197,9 @@ function renderVendors() {
 }
 
 async function submitForm() {
+  const btn = document.getElementById('formSubmit');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+
   const payload = {
     Name: document.getElementById('fName').value,
     Phone: document.getElementById('fPhone').value,
@@ -207,48 +208,46 @@ async function submitForm() {
     Rating: currentRating
   };
 
-  if (isEdit) {
-    payload.action = "update";
-    payload.oldPhone = editOriginalPhone;
-  }
-
-  await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
-  showToast('Saved!', '#2A5C3F');
-  closeModal('formModal');
-  loadVendors();
+  try {
+    await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
+    showToast('Success!', '#2A5C3F');
+    closeModal();
+    loadVendors();
+  } catch(e) { showToast('Error', '#C0392B'); }
+  btn.textContent = 'Save Changes'; btn.disabled = false;
 }
 
 function buildCats() {
   const uniqueCats = [...new Set(vendors.map(v => v.svc))].sort();
   const cats = ['All', ...uniqueCats];
-  document.getElementById('cats').innerHTML = cats.map(c => `<button class="cat ${c===activeCat?'on':''}" onclick="activeCat='${c}';buildCats();renderVendors()">${c}</button>`).join('');
+  document.getElementById('cats').innerHTML = cats.map(c => `<button class="cat ${c===activeCat?'on':''}" onclick="setCat('${c}')">${c}</button>`).join('');
   document.getElementById('sV').textContent = vendors.length;
   document.getElementById('sC').textContent = uniqueCats.length;
 }
 
+// Logic to populate the 'Already Added Categories' into the dropdown
 function updateDatalist() {
   const uniqueCats = [...new Set(vendors.map(v => v.svc))].sort();
   document.getElementById('svcList').innerHTML = uniqueCats.map(c => `<option value="${c}">`).join('');
 }
 
+function setCat(c) { activeCat = c; buildCats(); renderVendors(); }
 function setRating(n) { currentRating = n; const stars = document.querySelectorAll('#starRating span'); stars.forEach((s, i) => s.style.color = i < n ? '#C8922A' : '#E2D9CC'); }
-function openAdd() { isEdit = false; document.getElementById('formTitle').textContent = 'Add Vendor'; clearForm(); openModal('formModal'); }
+function openAdd() { clearForm(); document.getElementById('formTitle').textContent = 'Add Vendor'; openModal(); }
 function openEdit(phone) {
   const v = vendors.find(x => x.phone === phone);
-  isEdit = true;
-  editOriginalPhone = v.phone;
-  document.getElementById('formTitle').textContent = 'Edit Vendor';
   document.getElementById('fName').value = v.name;
   document.getElementById('fPhone').value = v.phone;
   document.getElementById('fService').value = v.svc;
   document.getElementById('fRemark').value = v.rem;
   setRating(Math.round(v.rating));
-  openModal('formModal');
+  document.getElementById('formTitle').textContent = 'Edit Vendor';
+  openModal();
 }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function openModal() { document.getElementById('formModal').classList.add('open'); }
+function closeModal() { document.getElementById('formModal').classList.remove('open'); }
 function clearForm() { document.querySelectorAll('.fi, .ft').forEach(i => i.value = ''); setRating(0); }
 function showToast(m, c) { const t = document.getElementById('toast'); t.textContent = m; t.style.background = c; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
-function openModal(id) { document.getElementById(id).classList.add('open'); }
 
 loadVendors();
 </script>
