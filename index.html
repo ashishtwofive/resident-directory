@@ -139,8 +139,8 @@ nav{
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycby-ZdPN7LWyTYTDJPhSbsZ3CPRKSJrZ6m5zf1xeyY_DhQeIQjusdakLps1e7LvDdR_B/exec';
-let vendors = [], activeCat = 'All', currentRating = 0;
+const API_URL = 'https://script.google.com/macros/s/AKfycbwOfc2kpxzJl99oC916g_bcJ_j3MqERpdwsCm7mXKKZ0CVyOenqlNNbGneQPwrma0sb/exec';
+let vendors = [], activeCat = 'All', currentRating = 0, formMode = 'add', currentEditId = null;
 
 async function loadVendors() {
   const syncBtn = document.getElementById('syncBtn');
@@ -153,6 +153,7 @@ async function loadVendors() {
     const sortedData = data.sort((a,b) => (parseFloat(b.Rating) || 0) - (parseFloat(a.Rating) || 0));
 
     vendors = sortedData.map(v => ({
+      id: v.Id || v.id || '',        // unique row ID from Google Sheet
       name: v.Name || '',
       phone: String(v.Phone || '').replace(/\D/g, '').slice(-10),
       svc: v.Category || 'General',
@@ -191,7 +192,7 @@ function renderVendors() {
       <div class="cphone">📱 +91 ${v.phone}</div>
       <div class="cacts">
         <button class="bcall" onclick="window.location.href='tel:+91${v.phone}'">📞 Call</button>
-        <button class="bedit" onclick="openEdit('${v.phone}')">Edit</button>
+        <button class="bedit" onclick="openEdit('${v.id}')">Edit</button>
       </div>
     </div>`).join('');
 }
@@ -201,6 +202,8 @@ async function submitForm() {
   btn.textContent = 'Saving...'; btn.disabled = true;
 
   const payload = {
+    action: formMode,              // 'add' or 'edit' — tells Apps Script what to do
+    Id: currentEditId,             // null for add, row ID for edit
     Name: document.getElementById('fName').value,
     Phone: document.getElementById('fPhone').value,
     Category: document.getElementById('fService').value,
@@ -233,9 +236,12 @@ function updateDatalist() {
 
 function setCat(c) { activeCat = c; buildCats(); renderVendors(); }
 function setRating(n) { currentRating = n; const stars = document.querySelectorAll('#starRating span'); stars.forEach((s, i) => s.style.color = i < n ? '#C8922A' : '#E2D9CC'); }
-function openAdd() { clearForm(); document.getElementById('formTitle').textContent = 'Add Vendor'; openModal(); }
-function openEdit(phone) {
-  const v = vendors.find(x => x.phone === phone);
+function openAdd() { formMode = 'add'; currentEditId = null; clearForm(); document.getElementById('formTitle').textContent = 'Add Vendor'; openModal(); }
+function openEdit(id) {
+  const v = vendors.find(x => x.id === id);
+  if (!v) { showToast('Vendor not found', '#C0392B'); return; }
+  formMode = 'edit';
+  currentEditId = id;
   document.getElementById('fName').value = v.name;
   document.getElementById('fPhone').value = v.phone;
   document.getElementById('fService').value = v.svc;
