@@ -20,7 +20,7 @@
   --border:#E4E7EC;
   --gold:#D4A017;
   --shadow:0 8px 24px rgba(16,24,40,0.08);
-  --radius:20px;
+  --radius:22px;
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; }
@@ -30,76 +30,79 @@ body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); }
 nav{
   position:sticky; top:0; z-index:100; backdrop-filter:blur(12px);
   background:rgba(255,255,255,0.92); border-bottom:1px solid rgba(0,0,0,0.05);
-  display:flex; justify-content:space-between; align-items:center; padding:14px 24px;
+  display:flex; justify-content:space-between; align-items:center; padding:12px 20px;
 }
-.nav-logo{ font-family:'Playfair Display',serif; font-size:28px; color:var(--green); font-weight:700; }
-.nav-right{ display:flex; gap:10px; align-items:center; }
-.sync-btn, .btn-add-nav{ border:none; border-radius:12px; padding:11px 16px; font-weight:600; cursor:pointer; transition:0.25s ease; }
+.nav-logo{ font-family:'Playfair Display',serif; font-size:24px; color:var(--green); font-weight:700; }
+.nav-right{ display:flex; gap:8px; align-items:center; }
+.sync-btn, .btn-add-nav{ border:none; border-radius:10px; padding:8px 14px; font-weight:600; cursor:pointer; transition:0.25s ease; font-size: 13px; }
 .sync-btn{ background:#fff; border:1px solid var(--border); }
 .btn-add-nav{ background:var(--green); color:#fff; box-shadow:var(--shadow); }
 
 /* HERO */
-.hero{ padding:55px 20px 20px; text-align:center; background:linear-gradient(to bottom,#EFF8F2,#F5F7F6); }
-.hero h1{ font-family:'Playfair Display',serif; font-size:clamp(38px,6vw,68px); line-height:1.05; color:#163222; margin-bottom:18px; }
-.hero p{ max-width:760px; margin:auto; color:var(--muted); font-size:18px; line-height:1.6; }
+.hero{ padding:30px 20px 15px; text-align:center; background:linear-gradient(to bottom,#EFF8F2,#F5F7F6); }
+.hero h1{ font-family:'Playfair Display',serif; font-size:clamp(28px,4vw,48px); line-height:1.1; color:#163222; margin-bottom:10px; }
+.hero p{ max-width:650px; margin:auto; color:var(--muted); font-size:14px; line-height:1.5; }
 
 /* STATS */
-.stats-bar{ max-width:1000px; margin:20px auto 40px; display:grid; grid-template-columns:repeat(3,1fr); gap:18px; padding:0 20px; }
-.stat{ background:#fff; border-radius:22px; padding:22px; display:flex; align-items:center; gap:16px; box-shadow:var(--shadow); }
-.stat-icon{ width:58px; height:58px; border-radius:16px; background:var(--greenLight); display:flex; align-items:center; justify-content:center; color:var(--green); font-size:20px; }
-.stat-num{ font-size:30px; font-weight:700; color:var(--green); }
-.stat-lbl{ color:var(--muted); font-size:14px; }
+.stats-bar{ max-width:900px; margin:15px auto 25px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; padding:0 20px; }
+.stat{ background:#fff; border-radius:18px; padding:12px 16px; display:flex; align-items:center; gap:12px; box-shadow:var(--shadow); }
+.stat-icon{ width:40px; height:40px; border-radius:12px; background:var(--greenLight); display:flex; align-items:center; justify-content:center; color:var(--green); font-size:16px; }
+.stat-num{ font-size:20px; font-weight:700; color:var(--green); }
+.stat-lbl{ color:var(--muted); font-size:12px; }
 
 /* SEARCH WRAP */
-.search-wrap{ max-width:850px; margin:0 auto 30px; padding:0 20px; }
-.search-box{ background:#fff; border-radius:20px; box-shadow:var(--shadow); border:1px solid rgba(0,0,0,0.05); padding:0 22px; display:flex; align-items:center; gap:14px; }
-.search-box i{ color:var(--green); font-size:18px; }
-.search-box input{ flex:1; border:none; outline:none; background:transparent; font-size:16px; padding:20px 0; }
+.search-wrap{ max-width:800px; margin:0 auto 20px; padding:0 20px; }
+.search-box{ background:#fff; border-radius:16px; box-shadow:var(--shadow); border:1px solid rgba(0,0,0,0.05); padding:0 18px; display:flex; align-items:center; gap:12px; }
+.search-box i{ color:var(--green); font-size:16px; }
+.search-box input{ flex:1; border:none; outline:none; background:transparent; font-size:15px; padding:14px 0; }
 
 /* MAIN */
-.main{ max-width:1200px; margin:auto; padding:0 18px 80px; }
+.main{ max-width:1200px; margin:auto; padding:0 18px 60px; }
+.cats{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:25px; }
+.cat{ padding:7px 14px; border:1px solid var(--border); border-radius:999px; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,0.04); color:#344054; font-weight:600; cursor:pointer; transition: 0.2s; font-size: 12px; }
+.cat.on{ background:var(--green); color:#fff; border-color: var(--green); }
 
-/* CATEGORY FILTERS */
-.cats{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-bottom:34px; }
-.cat{ padding:10px 18px; border:none; border-radius:999px; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,0.04); color:#344054; font-weight:600; cursor:pointer; }
-.cat.on{ background:var(--green); color:#fff; }
+/* GRID & COMPACT CARDS */
+.grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px; }
+.vcard{ 
+  background:#fff; border-radius:var(--radius); padding:16px; 
+  box-shadow:var(--shadow); position:relative; transition:0.25s ease; 
+  border: 1px solid rgba(0,0,0,0.02); display: flex; flex-direction: column; min-height: 240px;
+}
+.vcard:hover{ transform:translateY(-3px); }
 
-/* GRID & CARDS */
-.grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:24px; }
-.vcard{ background:#fff; border-radius:28px; padding:24px; box-shadow:var(--shadow); position:relative; transition:0.25s ease; border: 1px solid rgba(0,0,0,0.02); }
-.vcard:hover{ transform:translateY(-4px); }
-.rating-pill{ position:absolute; top:24px; right:24px; background:#F9FAFB; border:1px solid #F2F4F7; padding:8px 12px; border-radius:12px; display:flex; align-items:center; gap:6px; font-weight:700; font-size:15px; z-index: 10; }
+.rating-pill{ 
+  position:absolute; top:16px; right:16px; background:#F9FAFB; 
+  border:1px solid #F2F4F7; padding:5px 8px; border-radius:8px; 
+  display:flex; align-items:center; gap:4px; font-weight:700; font-size:13px; z-index: 10; 
+}
 .rating-pill i{ color:#FDB022; }
-.ctop{ display:flex; gap:16px; align-items:flex-start; margin-bottom: 12px; }
-.cav{ width:60px; height:60px; border-radius:18px; background:var(--greenLight); color:var(--green); display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; flex-shrink:0; }
-.cinfo{ flex:1; padding-right: 65px; } /* Prevents name overlapping rating pill */
-.cname{ font-size:20px; font-weight:700; color:#101828; margin-bottom:4px; word-break: break-word; }
-.trusted-badge{ display:inline-flex; align-items:center; gap:4px; background:#FFF7E5; color:#936A22; padding:4px 10px; border-radius:8px; font-size:12px; font-weight:600; margin-bottom:8px; }
-.ccat{ display:inline-block; background:#EFF8F2; color:#2F6B4F; border-radius:8px; padding:6px 12px; font-size:13px; font-weight:600; }
-.cremark{ color:var(--muted); line-height:1.5; font-size:14px; margin: 12px 0; min-height: 21px; }
-.cphone{ font-weight:700; font-size:16px; color:#101828; margin-bottom:18px; display: flex; align-items: center; gap: 8px; }
-.cacts{ display:flex; gap:8px; }
-.bcall{ flex:2; background:var(--green); color:#fff; border:none; border-radius:14px; padding:13px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; }
-.bwa{ background:#25D366; color:#fff; width:52px; border:none; border-radius:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:20px; }
-.bedit{ background:#F2F4F7; color:#344054; border:none; border-radius:14px; padding:13px 20px; font-weight:600; cursor:pointer; }
 
-/* MODAL */
+.ctop{ display:flex; gap:12px; align-items:flex-start; margin-bottom: 8px; }
+.cav{ width:48px; height:48px; border-radius:14px; background:var(--greenLight); color:var(--green); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:700; flex-shrink:0; }
+.cinfo{ flex:1; padding-right: 60px; }
+.cname{ font-size:18px; font-weight:700; color:#101828; margin-bottom:2px; line-height: 1.2; word-break: break-word; }
+
+.trusted-badge{ display:inline-flex; align-items:center; gap:4px; background:#FFF7E5; color:#936A22; padding:3px 8px; border-radius:6px; font-size:10px; font-weight:600; margin-bottom:6px; }
+.ccat{ display:inline-block; background:#EFF8F2; color:#2F6B4F; border-radius:8px; padding:4px 10px; font-size:11px; font-weight:600; margin-bottom: 8px; }
+
+.cremark{ color:var(--muted); line-height:1.4; font-size:13px; margin-bottom: 12px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.cphone{ font-weight:700; font-size:15px; color:#101828; margin-bottom:12px; display: flex; align-items: center; gap: 8px; }
+
+/* ACTION ROW - MATCHING IMAGE PROPORTIONS */
+.cacts{ display:flex; gap:8px; align-items: center; }
+.bcall{ flex: 1.4; background:var(--green); color:#fff; border:none; border-radius:12px; height: 40px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; font-size: 13px; }
+.bwa{ width:40px; height: 40px; background:#57C771; color:#fff; border:none; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:20px; transition: 0.2s; }
+.bedit{ background:#F2F4F7; color:#344054; border:none; border-radius:12px; height: 40px; padding: 0 16px; cursor:pointer; font-weight:700; font-size: 12px; }
+
+/* MODAL & SCRIPTS AS PER PREVIOUS WORKING VERSION */
 .ov{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center; padding:20px; }
 .ov.open{ display:flex; }
-.modal{ width:100%; max-width:500px; background:#fff; border-radius:28px; padding:28px; }
-.fg{ margin-bottom:16px; }
-.fl{ display:block; margin-bottom:8px; font-size:13px; font-weight:700; color:#475467; }
-.fi,.ft{ width:100%; padding:14px; border-radius:14px; border:1.5px solid var(--border); outline:none; font-size:15px; }
-.bsub{ width:100%; background:var(--green); color:#fff; border:none; border-radius:14px; padding:15px; font-size:16px; font-weight:700; cursor:pointer; }
-
-#toast{ position:fixed; bottom:28px; left:50%; transform:translateX(-50%); padding:12px 24px; border-radius:999px; color:#fff; opacity:0; transition:0.25s; z-index:9999; font-weight: 600; }
-#toast.show{ opacity:1; }
-
-@media(max-width:768px){
-  .hero h1{ font-size:36px; }
-  .stats-bar{ grid-template-columns:1fr; margin-bottom: 20px; }
-  .grid{ grid-template-columns:1fr; }
-}
+.modal{ width:100%; max-width:480px; background:#fff; border-radius:24px; padding:24px; }
+.fg{ margin-bottom:14px; }
+.fl{ display:block; margin-bottom:6px; font-size:12px; font-weight:700; color:#475467; }
+.fi,.ft{ width:100%; padding:12px; border-radius:12px; border:1.5px solid var(--border); outline:none; font-size:14px; }
+.bsub{ width:100%; background:var(--green); color:#fff; border:none; border-radius:12px; padding:13px; font-size:15px; font-weight:700; cursor:pointer; }
 </style>
 </head>
 <body>
@@ -116,13 +119,13 @@ nav{
 
 <section class="hero">
   <h1>Trusted Society Vendors<br>All in One Place</h1>
-  <p>Find reliable plumbers, electricians, doctors, and specialists recommended by your neighbours.</p>
+  <p>Find reliable specialists recommended by your neighbours.</p>
 </section>
 
 <div class="stats-bar">
     <div class="stat">
       <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
-      <div><div class="stat-num" id="sV">—</div><div class="stat-lbl">Trusted Vendors</div></div>
+      <div><div class="stat-num" id="sV">—</div><div class="stat-lbl">Vendors</div></div>
     </div>
     <div class="stat">
       <div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div>
@@ -130,14 +133,14 @@ nav{
     </div>
     <div class="stat">
       <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
-      <div><div class="stat-num">4.8</div><div class="stat-lbl">Resident Rating</div></div>
+      <div><div class="stat-num">4.8</div><div class="stat-lbl">Rating</div></div>
     </div>
 </div>
 
 <div class="search-wrap">
     <div class="search-box">
       <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" id="searchIn" placeholder="Search by name, service or phone..." oninput="renderVendors()"/>
+      <input type="text" id="searchIn" placeholder="Search name or service..." oninput="renderVendors()"/>
     </div>
 </div>
 
@@ -146,24 +149,22 @@ nav{
   <div class="grid" id="grid"></div>
 </div>
 
-<div id="toast"></div>
-
 <div class="ov" id="formModal">
   <div class="modal">
-    <h2 id="formTitle" style="margin-bottom:20px;font-family:'Playfair Display',serif;">Manage Vendor</h2>
+    <h2 id="formTitle" style="margin-bottom:15px;font-family:'Playfair Display',serif;">Manage Vendor</h2>
     <div class="fg"><label class="fl">Name *</label><input class="fi" id="fName"/></div>
     <div class="fg"><label class="fl">Phone *</label><input class="fi" id="fPhone" maxlength="10"/></div>
-    <div class="fg"><label class="fl">Category *</label><input class="fi" id="fService" list="svcList" placeholder="Select or type new..."/>
+    <div class="fg"><label class="fl">Category *</label><input class="fi" id="fService" list="svcList"/>
       <datalist id="svcList"></datalist></div>
-    <div class="fg"><label class="fl">Description</label><textarea class="ft" id="fRemark"></textarea></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="ft" id="fRemark" rows="2"></textarea></div>
     <div class="fg"><label class="fl">Rating</label>
-      <div id="starRating" style="font-size:28px;cursor:pointer;color:#D0D5DD;">
+      <div id="starRating" style="font-size:24px;cursor:pointer;color:#D0D5DD;">
         <span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span>
       </div>
       <input type="hidden" id="fRating" value="0"/>
     </div>
     <button class="bsub" id="formSubmit" onclick="submitForm()">Save Changes</button>
-    <button style="width:100%;margin-top:12px;background:none;border:none;color:#667085;font-weight:600;cursor:pointer;" onclick="closeModal()">Cancel</button>
+    <button style="width:100%;margin-top:10px;background:none;border:none;color:#667085;font-weight:600;cursor:pointer;" onclick="closeModal()">Cancel</button>
   </div>
 </div>
 
@@ -188,8 +189,7 @@ async function loadVendors() {
     })).filter(v => v.name);
     buildCats();
     renderVendors();
-    updateDatalist();
-  } catch(e) { showToast('Load Error', '#C0392B'); }
+  } catch(e) { console.error("Load failed"); }
   syncBtn.textContent = '↻ Refresh';
 }
 
@@ -203,8 +203,8 @@ function renderVendors() {
         <div class="cav">${v.name[0].toUpperCase()}</div>
         <div class="cinfo">
           <div class="cname">${v.name}</div>
-          ${v.rating >= 4.5 ? '<div class="trusted-badge"><i class="fa-solid fa-thumbs-up"></i> Highly Recommended</div><br>' : ''}
-          <span class="ccat">${v.svc}</span>
+          ${v.rating >= 4.5 ? '<div class="trusted-badge"><i class="fa-solid fa-thumbs-up"></i> Highly Recommended</div>' : ''}
+          <div><span class="ccat">${v.svc}</span></div>
         </div>
       </div>
       <div class="cremark">${v.rem}</div>
@@ -221,19 +221,8 @@ function renderVendors() {
 async function submitForm() {
   const btn = document.getElementById('formSubmit');
   btn.textContent = 'Saving...'; btn.disabled = true;
-  const payload = {
-    action: formMode,
-    Id: currentEditId,
-    Name: document.getElementById('fName').value,
-    Phone: document.getElementById('fPhone').value,
-    Category: document.getElementById('fService').value,
-    Description: document.getElementById('fRemark').value,
-    Rating: currentRating
-  };
-  try {
-    await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
-    showToast('Success!', '#2F6B4F'); closeModal(); loadVendors();
-  } catch(e) { showToast('Error', '#C0392B'); }
+  const payload = { action: formMode, Id: currentEditId, Name: document.getElementById('fName').value, Phone: document.getElementById('fPhone').value, Category: document.getElementById('fService').value, Description: document.getElementById('fRemark').value, Rating: currentRating };
+  try { await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) }); loadVendors(); closeModal(); } catch(e) { }
   btn.textContent = 'Save Changes'; btn.disabled = false;
 }
 
@@ -245,34 +234,23 @@ function buildCats() {
   document.getElementById('sC').textContent = uniqueCats.length;
 }
 
-function updateDatalist() {
-  const uniqueCats = [...new Set(vendors.map(v => v.svc))].sort();
-  document.getElementById('svcList').innerHTML = uniqueCats.map(c => `<option value="${c}">`).join('');
-}
-
 function setCat(c) { activeCat = c; buildCats(); renderVendors(); }
 function setRating(n) { currentRating = n; const stars = document.querySelectorAll('#starRating span'); stars.forEach((s, i) => { s.style.color = i < n ? '#D4A017' : '#D0D5DD'; }); }
-function openAdd() { formMode = 'add'; currentEditId = null; clearForm(); document.getElementById('formTitle').textContent = 'Add Vendor'; openModal(); }
+function openAdd() { formMode = 'add'; currentEditId = null; clearForm(); openModal(); }
 function openEdit(id) {
   const v = vendors.find(x => x.id === id);
-  if (!v) { showToast('Vendor not found', '#C0392B'); return; }
+  if (!v) return;
   formMode = 'edit'; currentEditId = id;
   document.getElementById('fName').value = v.name;
   document.getElementById('fPhone').value = v.phone;
   document.getElementById('fService').value = v.svc;
   document.getElementById('fRemark').value = v.rem;
   setRating(Math.round(v.rating));
-  document.getElementById('formTitle').textContent = 'Edit Vendor';
   openModal();
 }
-
 function openModal() { document.getElementById('formModal').classList.add('open'); }
 function closeModal() { document.getElementById('formModal').classList.remove('open'); }
 function clearForm() { document.querySelectorAll('.fi, .ft').forEach(i => i.value = ''); setRating(0); }
-function showToast(m, c) {
-  const t = document.getElementById('toast'); t.textContent = m; t.style.background = c; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
 
 loadVendors();
 </script>
