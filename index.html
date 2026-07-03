@@ -4,87 +4,108 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Resident Directory</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
 <style>
 :root{
-  --bg:#F5F2EC;--card:#FFFDF8;--ink:#1A1208;--ink2:#5C5040;--ink3:#9C8E7A;
-  --green:#2A5C3F;--mint:#A8D5BC;--gold:#C8922A;--gold-l:#FBF0D9;
-  --red:#C0392B;--border:#E2D9CC;--sh:0 2px 16px rgba(26,18,8,.09);--r:16px;
+  --bg:#F5F7F6;
+  --card:#FFFFFF;
+  --text:#1B1F1D;
+  --muted:#667085;
+  --green:#2F6B4F;
+  --greenLight:#EAF4EE;
+  --border:#E4E7EC;
+  --gold:#D4A017;
+  --shadow:0 8px 24px rgba(16,24,40,0.08);
+  --radius:20px;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
 
-/* ── NAV ── */
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{ font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); }
+
+/* NAVBAR */
 nav{
-  background:var(--green);padding:0 20px;
-  display:flex;align-items:center;justify-content:space-between;
-  height:62px;position:sticky;top:0;z-index:100;
-  box-shadow:0 2px 14px rgba(0,0,0,.2);
+  position:sticky; top:0; z-index:100; backdrop-filter:blur(12px);
+  background:rgba(255,255,255,0.92); border-bottom:1px solid rgba(0,0,0,0.05);
+  display:flex; justify-content:space-between; align-items:center; padding:14px 24px;
 }
-.nav-logo{font-family:'Fraunces',serif;font-size:19px;font-weight:900;color:#fff;}
-.nav-right{display:flex;gap:8px;align-items:center;}
-.sync-btn{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.22);color:#fff;border-radius:9px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;}
-.btn-add-nav{background:var(--gold);color:#fff;border:none;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;}
+.nav-logo{ font-family:'Playfair Display',serif; font-size:28px; color:var(--green); font-weight:700; }
+.nav-right{ display:flex; gap:10px; align-items:center; }
+.sync-btn, .btn-add-nav{ border:none; border-radius:12px; padding:11px 16px; font-weight:600; cursor:pointer; transition:0.25s ease; }
+.sync-btn{ background:#fff; border:1px solid var(--border); }
+.btn-add-nav{ background:var(--green); color:#fff; box-shadow:var(--shadow); }
 
-/* ── HERO ── */
-.hero{background:var(--green);padding:60px 20px 80px;text-align:center;position:relative;overflow:hidden;}
-.hero h1{font-family:'Fraunces',serif;font-size:clamp(40px,8vw,72px);font-weight:900;color:#fff;line-height:1;margin-bottom:20px;position:relative;}
-.hero h1 em{font-style:italic;color:var(--mint);font-weight:400;}
-.hero p{color:#C0D9CC;font-size:clamp(16px,2vw,19px);max-width:600px;margin:0 auto;line-height:1.5;position:relative;}
+/* HERO */
+.hero{ padding:55px 20px 20px; text-align:center; background:linear-gradient(to bottom,#EFF8F2,#F5F7F6); }
+.hero h1{ font-family:'Playfair Display',serif; font-size:clamp(38px,6vw,68px); line-height:1.05; color:#163222; margin-bottom:18px; }
+.hero p{ max-width:760px; margin:auto; color:var(--muted); font-size:18px; line-height:1.6; }
 
-/* ── STATS ── */
-.stats-bar{background:var(--card);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;justify-content:center;gap:48px;flex-wrap:wrap;}
-.stat-num{font-family:'Fraunces',serif;font-size:28px;font-weight:900;color:var(--green);}
-.stat-lbl{font-size:11px;color:var(--ink3);font-weight:700;text-transform:uppercase;}
+/* STATS */
+.stats-bar{ max-width:1000px; margin:20px auto 40px; display:grid; grid-template-columns:repeat(3,1fr); gap:18px; padding:0 20px; }
+.stat{ background:#fff; border-radius:22px; padding:22px; display:flex; align-items:center; gap:16px; box-shadow:var(--shadow); }
+.stat-icon{ width:58px; height:58px; border-radius:16px; background:var(--greenLight); display:flex; align-items:center; justify-content:center; color:var(--green); font-size:20px; }
+.stat-num{ font-size:30px; font-weight:700; color:var(--green); }
+.stat-lbl{ color:var(--muted); font-size:14px; }
 
-/* ── MAIN ── */
-.main{max-width:1140px;margin:0 auto;padding:30px 18px 80px;}
-.filter-bar{display:flex;gap:12px;margin-bottom:24px;align-items:center;}
-.sbox{flex:1;display:flex;align-items:center;background:var(--card);border:2px solid var(--border);border-radius:14px;padding:0 16px;gap:10px;}
-.sbox input{flex:1;border:none;outline:none;font-size:16px;padding:14px 0;background:transparent;}
+/* SEARCH WRAP */
+.search-wrap{ max-width:850px; margin:0 auto 30px; padding:0 20px; }
+.search-box{ background:#fff; border-radius:20px; box-shadow:var(--shadow); border:1px solid rgba(0,0,0,0.05); padding:0 22px; display:flex; align-items:center; gap:14px; }
+.search-box i{ color:var(--green); font-size:18px; }
+.search-box input{ flex:1; border:none; outline:none; background:transparent; font-size:16px; padding:20px 0; }
 
-.cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
-.cat{padding:8px 18px;border-radius:30px;border:2px solid var(--border);background:var(--card);font-size:13px;font-weight:600;cursor:pointer;}
-.cat.on{background:var(--green);color:#fff;border-color:var(--green);}
+/* MAIN */
+.main{ max-width:1200px; margin:auto; padding:0 18px 80px; }
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
-.vcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:20px;position:relative;transition:0.25s;display:flex;flex-direction:column;gap:10px;}
-.vcard:hover{transform:translateY(-4px);box-shadow:var(--sh);}
+/* CATEGORY FILTERS */
+.cats{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-bottom:34px; }
+.cat{ padding:10px 18px; border:none; border-radius:999px; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,0.04); color:#344054; font-weight:600; cursor:pointer; }
+.cat.on{ background:var(--green); color:#fff; }
 
-.trusted-badge{
-  position:absolute;top:12px;right:12px;background:#EBF5EE;color:var(--green);
-  font-size:10px;font-weight:800;padding:5px 10px;border-radius:7px;
-  border:1px solid #A8D5BC;z-index:5;
+/* GRID & CARDS */
+.grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:24px; }
+.vcard{ background:#fff; border-radius:28px; padding:24px; box-shadow:var(--shadow); position:relative; transition:0.25s ease; border: 1px solid rgba(0,0,0,0.02); }
+.vcard:hover{ transform:translateY(-4px); }
+.rating-pill{ position:absolute; top:24px; right:24px; background:#F9FAFB; border:1px solid #F2F4F7; padding:8px 12px; border-radius:12px; display:flex; align-items:center; gap:6px; font-weight:700; font-size:15px; z-index: 10; }
+.rating-pill i{ color:#FDB022; }
+.ctop{ display:flex; gap:16px; align-items:flex-start; margin-bottom: 12px; }
+.cav{ width:60px; height:60px; border-radius:18px; background:var(--greenLight); color:var(--green); display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:700; flex-shrink:0; }
+.cinfo{ flex:1; padding-right: 65px; } /* Prevents name overlapping rating pill */
+.cname{ font-size:20px; font-weight:700; color:#101828; margin-bottom:4px; word-break: break-word; }
+.trusted-badge{ display:inline-flex; align-items:center; gap:4px; background:#FFF7E5; color:#936A22; padding:4px 10px; border-radius:8px; font-size:12px; font-weight:600; margin-bottom:8px; }
+.ccat{ display:inline-block; background:#EFF8F2; color:#2F6B4F; border-radius:8px; padding:6px 12px; font-size:13px; font-weight:600; }
+.cremark{ color:var(--muted); line-height:1.5; font-size:14px; margin: 12px 0; min-height: 21px; }
+.cphone{ font-weight:700; font-size:16px; color:#101828; margin-bottom:18px; display: flex; align-items: center; gap: 8px; }
+.cacts{ display:flex; gap:8px; }
+.bcall{ flex:2; background:var(--green); color:#fff; border:none; border-radius:14px; padding:13px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; }
+.bwa{ background:#25D366; color:#fff; width:52px; border:none; border-radius:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:20px; }
+.bedit{ background:#F2F4F7; color:#344054; border:none; border-radius:14px; padding:13px 20px; font-weight:600; cursor:pointer; }
+
+/* MODAL */
+.ov{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center; padding:20px; }
+.ov.open{ display:flex; }
+.modal{ width:100%; max-width:500px; background:#fff; border-radius:28px; padding:28px; }
+.fg{ margin-bottom:16px; }
+.fl{ display:block; margin-bottom:8px; font-size:13px; font-weight:700; color:#475467; }
+.fi,.ft{ width:100%; padding:14px; border-radius:14px; border:1.5px solid var(--border); outline:none; font-size:15px; }
+.bsub{ width:100%; background:var(--green); color:#fff; border:none; border-radius:14px; padding:15px; font-size:16px; font-weight:700; cursor:pointer; }
+
+#toast{ position:fixed; bottom:28px; left:50%; transform:translateX(-50%); padding:12px 24px; border-radius:999px; color:#fff; opacity:0; transition:0.25s; z-index:9999; font-weight: 600; }
+#toast.show{ opacity:1; }
+
+@media(max-width:768px){
+  .hero h1{ font-size:36px; }
+  .stats-bar{ grid-template-columns:1fr; margin-bottom: 20px; }
+  .grid{ grid-template-columns:1fr; }
 }
-
-.ctop{display:flex;gap:14px;}
-.cav{width:48px;height:48px;border-radius:14px;background:var(--mint);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:20px;font-weight:900;color:var(--green);}
-.cname{font-size:16px;font-weight:700;line-height:1.2; padding-right: 45px;}
-.ccat{display:inline-block;background:var(--gold-l);color:var(--gold);border-radius:6px;font-size:11px;font-weight:700;padding:3px 10px;margin-top:4px;}
-
-.cremark {font-size: 12px; color: var(--ink3); margin-top: 4px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;}
-.cphone{font-size:15px;font-weight:700;color:var(--green);margin-top:6px;}
-.cacts{display:flex;gap:8px;margin-top:12px;}
-.bcall{flex:1;background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px;font-weight:700;cursor:pointer;}
-.bedit{background:transparent;border:1.5px solid var(--border);border-radius:10px;padding:12px;font-weight:600;cursor:pointer;font-size:13px;}
-
-.ov{display:none;position:fixed;inset:0;background:rgba(26,18,8,.6);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
-.ov.open{display:flex;}
-.modal{background:var(--card);border-radius:24px;width:100%;max-width:520px;padding:28px;}
-.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
-.fl{font-size:12px;font-weight:700;text-transform:uppercase;color:var(--ink2);}
-.fi,.ft{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:12px;outline:none;font-size:15px;}
-.bsub{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:14px;font-weight:700;font-size:16px;cursor:pointer;}
-
-#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:50px;opacity:0;transition:0.3s;z-index:999;color:#fff;}
-#toast.show{opacity:1;}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-logo">🏘️ Resident Directory</div>
+  <div class="nav-logo">🏘 Resident Directory</div>
   <div class="nav-right">
     <button class="sync-btn" onclick="window.open('https://drive.google.com/file/d/1caR1xi7Cdu-dj7mUd4SmEty04lH7mOVu/view?usp=sharing', '_blank')">🧾 Bills</button>
     <button class="sync-btn" onclick="window.open('https://drive.google.com/file/d/1W5Ze93vt-Zn8O1Rth_wlWv3fCf23mOd1/view?usp=sharing', '_blank')">📋 Rate List</button>
@@ -94,19 +115,33 @@ nav{
 </nav>
 
 <section class="hero">
-  <h1>All Society Vendors<br><em>One Place, Free</em></h1>
-  <p>Trusted vendors recommended by your neighbours — plumbers, doctors, cooks & more.</p>
+  <h1>Trusted Society Vendors<br>All in One Place</h1>
+  <p>Find reliable plumbers, electricians, doctors, and specialists recommended by your neighbours.</p>
 </section>
 
 <div class="stats-bar">
-  <div class="stat"><div class="stat-num" id="sV">—</div><div class="stat-lbl">Vendors</div></div>
-  <div class="stat"><div class="stat-num" id="sC">—</div><div class="stat-lbl">Categories</div></div>
+    <div class="stat">
+      <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+      <div><div class="stat-num" id="sV">—</div><div class="stat-lbl">Trusted Vendors</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div>
+      <div><div class="stat-num" id="sC">—</div><div class="stat-lbl">Categories</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+      <div><div class="stat-num">4.8</div><div class="stat-lbl">Resident Rating</div></div>
+    </div>
+</div>
+
+<div class="search-wrap">
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="searchIn" placeholder="Search by name, service or phone..." oninput="renderVendors()"/>
+    </div>
 </div>
 
 <div class="main">
-  <div class="filter-bar">
-    <div class="sbox">🔍 <input type="text" id="searchIn" placeholder="Search name or service..." oninput="renderVendors()"/></div>
-  </div>
   <div class="cats" id="cats"></div>
   <div class="grid" id="grid"></div>
 </div>
@@ -115,26 +150,20 @@ nav{
 
 <div class="ov" id="formModal">
   <div class="modal">
-    <h2 id="formTitle" style="margin-bottom:20px; font-family:'Fraunces', serif;">Manage Vendor</h2>
-    <div class="mbody">
-      <div class="fg"><label class="fl">Name *</label><input class="fi" id="fName"/></div>
-      <div class="fg"><label class="fl">Phone *</label><input class="fi" id="fPhone" maxlength="10"/></div>
-      <div class="fg">
-        <label class="fl">Category *</label>
-        <input class="fi" id="fService" list="svcList" placeholder="Select or type new..."/>
-        <datalist id="svcList"></datalist>
+    <h2 id="formTitle" style="margin-bottom:20px;font-family:'Playfair Display',serif;">Manage Vendor</h2>
+    <div class="fg"><label class="fl">Name *</label><input class="fi" id="fName"/></div>
+    <div class="fg"><label class="fl">Phone *</label><input class="fi" id="fPhone" maxlength="10"/></div>
+    <div class="fg"><label class="fl">Category *</label><input class="fi" id="fService" list="svcList" placeholder="Select or type new..."/>
+      <datalist id="svcList"></datalist></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="ft" id="fRemark"></textarea></div>
+    <div class="fg"><label class="fl">Rating</label>
+      <div id="starRating" style="font-size:28px;cursor:pointer;color:#D0D5DD;">
+        <span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span>
       </div>
-      <div class="fg"><label class="fl">Description</label><textarea class="ft" id="fRemark"></textarea></div>
-      <div class="fg">
-        <label class="fl">Rating</label>
-        <div id="starRating" style="font-size:28px; cursor:pointer; color:#E2D9CC;">
-          <span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span>
-        </div>
-        <input type="hidden" id="fRating" value="0"/>
-      </div>
-      <button class="bsub" id="formSubmit" onclick="submitForm()">Save Changes</button>
-      <button style="width:100%; margin-top:12px; background:none; border:none; color:var(--ink3); font-weight:600; cursor:pointer;" onclick="closeModal()">Cancel</button>
+      <input type="hidden" id="fRating" value="0"/>
     </div>
+    <button class="bsub" id="formSubmit" onclick="submitForm()">Save Changes</button>
+    <button style="width:100%;margin-top:12px;background:none;border:none;color:#667085;font-weight:600;cursor:pointer;" onclick="closeModal()">Cancel</button>
   </div>
 </div>
 
@@ -148,74 +177,62 @@ async function loadVendors() {
   try {
     const res = await fetch(API_URL);
     const data = await res.json();
-    
-    // Sort High-to-Low initially
     const sortedData = data.sort((a,b) => (parseFloat(b.Rating) || 0) - (parseFloat(a.Rating) || 0));
-
-    vendors = sortedData.map(v => ({
-      id: v.Id || v.id || '',        // unique row ID from Google Sheet
+    vendors = sortedData.map((v, index) => ({
+      id: v.Id || v.id || `v-${index}`,
       name: v.Name || '',
       phone: String(v.Phone || '').replace(/\D/g, '').slice(-10),
       svc: v.Category || 'General',
       rem: v.Description || '',
       rating: parseFloat(v.Rating) || 0
     })).filter(v => v.name);
-
     buildCats();
     renderVendors();
-    updateDatalist(); // Populate the dropdown suggestions
+    updateDatalist();
   } catch(e) { showToast('Load Error', '#C0392B'); }
   syncBtn.textContent = '↻ Refresh';
 }
 
 function renderVendors() {
   const q = document.getElementById('searchIn').value.toLowerCase();
-  const list = vendors.filter(v => 
-    (activeCat === 'All' || v.svc === activeCat) && 
-    (v.name.toLowerCase().includes(q) || v.svc.toLowerCase().includes(q))
-  );
-  
+  const list = vendors.filter(v => (activeCat === 'All' || v.svc === activeCat) && (v.name.toLowerCase().includes(q) || v.svc.toLowerCase().includes(q)));
   document.getElementById('grid').innerHTML = list.map(v => `
     <div class="vcard">
-      ${v.rating >= 4.5 ? '<div class="trusted-badge">⭐ Highly Recommended</div>' : ''}
+      <div class="rating-pill"><i class="fa-solid fa-star"></i> ${v.rating.toFixed(1)}</div>
       <div class="ctop">
         <div class="cav">${v.name[0].toUpperCase()}</div>
-        <div style="flex:1; min-width:0;">
+        <div class="cinfo">
           <div class="cname">${v.name}</div>
+          ${v.rating >= 4.5 ? '<div class="trusted-badge"><i class="fa-solid fa-thumbs-up"></i> Highly Recommended</div><br>' : ''}
           <span class="ccat">${v.svc}</span>
-          <div style="color:var(--gold); font-size:12px; margin-top:2px;">
-            ${'★'.repeat(Math.round(v.rating))}${'☆'.repeat(5-Math.round(v.rating))} (${v.rating.toFixed(1)})
-          </div>
-          ${v.rem ? `<div class="cremark" title="${v.rem}">${v.rem}</div>` : ''}
         </div>
       </div>
-      <div class="cphone">📱 +91 ${v.phone}</div>
+      <div class="cremark">${v.rem}</div>
+      <div class="cphone"><i class="fa-solid fa-phone"></i> +91 ${v.phone}</div>
       <div class="cacts">
-        <button class="bcall" onclick="window.location.href='tel:+91${v.phone}'">📞 Call</button>
+        <button class="bcall" onclick="window.location.href='tel:+91${v.phone}'"><i class="fa-solid fa-phone"></i> Call Now</button>
+        <button class="bwa" onclick="window.open('https://wa.me/91${v.phone}', '_blank')"><i class="fa-brands fa-whatsapp"></i></button>
         <button class="bedit" onclick="openEdit('${v.id}')">Edit</button>
       </div>
-    </div>`).join('');
+    </div>
+  `).join('');
 }
 
 async function submitForm() {
   const btn = document.getElementById('formSubmit');
   btn.textContent = 'Saving...'; btn.disabled = true;
-
   const payload = {
-    action: formMode,              // 'add' or 'edit' — tells Apps Script what to do
-    Id: currentEditId,             // null for add, row ID for edit
+    action: formMode,
+    Id: currentEditId,
     Name: document.getElementById('fName').value,
     Phone: document.getElementById('fPhone').value,
     Category: document.getElementById('fService').value,
     Description: document.getElementById('fRemark').value,
     Rating: currentRating
   };
-
   try {
-    await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
-    showToast('Success!', '#2A5C3F');
-    closeModal();
-    loadVendors();
+    await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+    showToast('Success!', '#2F6B4F'); closeModal(); loadVendors();
   } catch(e) { showToast('Error', '#C0392B'); }
   btn.textContent = 'Save Changes'; btn.disabled = false;
 }
@@ -228,20 +245,18 @@ function buildCats() {
   document.getElementById('sC').textContent = uniqueCats.length;
 }
 
-// Logic to populate the 'Already Added Categories' into the dropdown
 function updateDatalist() {
   const uniqueCats = [...new Set(vendors.map(v => v.svc))].sort();
   document.getElementById('svcList').innerHTML = uniqueCats.map(c => `<option value="${c}">`).join('');
 }
 
 function setCat(c) { activeCat = c; buildCats(); renderVendors(); }
-function setRating(n) { currentRating = n; const stars = document.querySelectorAll('#starRating span'); stars.forEach((s, i) => s.style.color = i < n ? '#C8922A' : '#E2D9CC'); }
+function setRating(n) { currentRating = n; const stars = document.querySelectorAll('#starRating span'); stars.forEach((s, i) => { s.style.color = i < n ? '#D4A017' : '#D0D5DD'; }); }
 function openAdd() { formMode = 'add'; currentEditId = null; clearForm(); document.getElementById('formTitle').textContent = 'Add Vendor'; openModal(); }
 function openEdit(id) {
   const v = vendors.find(x => x.id === id);
   if (!v) { showToast('Vendor not found', '#C0392B'); return; }
-  formMode = 'edit';
-  currentEditId = id;
+  formMode = 'edit'; currentEditId = id;
   document.getElementById('fName').value = v.name;
   document.getElementById('fPhone').value = v.phone;
   document.getElementById('fService').value = v.svc;
@@ -250,10 +265,14 @@ function openEdit(id) {
   document.getElementById('formTitle').textContent = 'Edit Vendor';
   openModal();
 }
+
 function openModal() { document.getElementById('formModal').classList.add('open'); }
 function closeModal() { document.getElementById('formModal').classList.remove('open'); }
 function clearForm() { document.querySelectorAll('.fi, .ft').forEach(i => i.value = ''); setRating(0); }
-function showToast(m, c) { const t = document.getElementById('toast'); t.textContent = m; t.style.background = c; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+function showToast(m, c) {
+  const t = document.getElementById('toast'); t.textContent = m; t.style.background = c; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
 
 loadVendors();
 </script>
