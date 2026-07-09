@@ -1,0 +1,28 @@
+{
+  "name": "resident-directory",
+  "version": "1.0.0",
+  "description": "Find reliable, neighborhood-verified specialists recommended by your community members.",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build needed'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashishtwofive/resident-directory.git"
+  },
+  "keywords": [
+    "resident",
+    "directory",
+    "community",
+    "vendors"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashishtwofive/resident-directory/issues"
+  },
+  "homepage": "https://github.com/ashishtwofive/resident-directory#readme",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}
