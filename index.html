@@ -161,6 +161,19 @@ nav{
   40% { transform: scale(1.1); opacity: 1; }
 }
 
+/* ERROR STATE BUTTON */
+.btn-retry {
+  margin-top: 12px;
+  background: var(--green);
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 /* MODALS */
 .ov{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center; padding:16px; }
 .ov.open{ display:flex; }
@@ -230,7 +243,7 @@ nav{
   <div class="grid" id="grid">
     <div class="inline-dots-loader">
       <div class="loader-dots"><span></span><span></span><span></span></div>
-      <div class="loader-text">Loading vendors...</div>
+      <div class="loader-text">Loading...</div>
     </div>
   </div>
 </div>
@@ -264,6 +277,7 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbwOfc2kpxzJl99oC916g_bc
 let vendors = JSON.parse(localStorage.getItem('cached_vendors') || '[]');
 let activeCat = 'All', currentRating = 0, formMode = 'add', currentEditId = null;
 let isLoading = false;
+let loadError = false;
 
 /* PROGRESS BAR HELPER */
 function setProgress(pct) {
@@ -291,7 +305,7 @@ async function refreshVendors() {
     showToast('Updated successfully!', '#2F6B4F');
   } catch(e) {
     setProgress(100);
-    showToast('Failed to connect, '#C0392B');
+    showToast('Failed to connect', '#C0392B');
   } finally {
     syncBtn.textContent = '↻ Refresh';
     syncBtn.disabled = false;
@@ -301,17 +315,29 @@ async function refreshVendors() {
 /* ---------------- VENDORS LOGIC ---------------- */
 async function loadVendors() {
   isLoading = true;
+  loadError = false;
+
   if (vendors.length === 0) {
     document.getElementById('grid').innerHTML = `
       <div class="inline-dots-loader">
         <div class="loader-dots"><span></span><span></span><span></span></div>
-        <div class="loader-text">Loading vendors...</div>
+        <div class="loader-text">Loading...</div>
       </div>
     `;
   }
 
+  // 7-second controller prevents hanging indefinitely[cite: 9]
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 7000);
+
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(API_URL, {
+      method: 'GET',
+      redirect: 'follow', // Mandatory for Google Apps Script redirects
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+
     const data = await res.json();
     if (Array.isArray(data) && data.length > 0) {
       const sortedData = data.sort((a,b) => (parseFloat(b.Rating) || 0) - (parseFloat(a.Rating) || 0));
@@ -327,9 +353,10 @@ async function loadVendors() {
       localStorage.setItem('cached_vendors', JSON.stringify(vendors));
     }
   } catch(e) {
-    console.error("Fetch error:", e);
+    clearTimeout(timeoutId);
+    console.error("Fetch failed:", e);
     if (vendors.length === 0) {
-      showToast('Could not load vendors', '#C0392B');
+      loadError = true;
     }
   } finally {
     isLoading = false;
@@ -341,6 +368,18 @@ async function loadVendors() {
 
 function renderVendors() {
   if (isLoading && vendors.length === 0) return;
+
+  if (loadError && vendors.length === 0) {
+    document.getElementById('grid').innerHTML = `
+      <div style="grid-column:1/-1; text-align:center; padding:40px 20px; color:var(--muted);">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size:28px; color:#C0392B; margin-bottom:10px; display:block;"></i>
+        Unable to load directory from Google Sheets.<br>
+        <small style="display:block; margin-top:4px;">Check Apps Script deployment permissions ("Anyone").</small>
+        <button class="btn-retry" onclick="refreshVendors()">↻ Retry Connection</button>
+      </div>
+    `;
+    return;
+  }
 
   const q = document.getElementById('searchIn').value.toLowerCase();
   const list = vendors.filter(v => (activeCat === 'All' || v.svc === activeCat) && (v.name.toLowerCase().includes(q) || v.svc.toLowerCase().includes(q)));
@@ -388,7 +427,11 @@ async function submitForm() {
   };
 
   try { 
-    await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) }); 
+    await fetch(API_URL, { 
+      method: 'POST', 
+      redirect: 'follow',
+      body: JSON.stringify(payload) 
+    }); 
     showToast('Success!', '#2F6B4F');
     await loadVendors(); 
     closeModal('formModal'); 
