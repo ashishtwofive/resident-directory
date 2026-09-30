@@ -291,7 +291,7 @@ async function refreshVendors() {
     showToast('Updated successfully!', '#2F6B4F');
   } catch(e) {
     setProgress(100);
-    showToast('Failed to connect to Google Sheets', '#C0392B');
+    showToast('Failed to connect, '#C0392B');
   } finally {
     syncBtn.textContent = '↻ Refresh';
     syncBtn.disabled = false;
@@ -305,7 +305,7 @@ async function loadVendors() {
     document.getElementById('grid').innerHTML = `
       <div class="inline-dots-loader">
         <div class="loader-dots"><span></span><span></span><span></span></div>
-        <div class="loader-text">Loading vendors from Google Sheets...</div>
+        <div class="loader-text">Loading vendors...</div>
       </div>
     `;
   }
@@ -329,7 +329,7 @@ async function loadVendors() {
   } catch(e) {
     console.error("Fetch error:", e);
     if (vendors.length === 0) {
-      showToast('Could not load vendors from Google Sheets', '#C0392B');
+      showToast('Could not load vendors', '#C0392B');
     }
   } finally {
     isLoading = false;
